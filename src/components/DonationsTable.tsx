@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils';
 interface DonationsTableProps {
   donations: Donation[];
   showActions?: boolean;
+  showCollectedBy?: boolean;
   onEdit?: (donation: Donation) => void;
   onDelete?: (id: string) => void;
 }
@@ -31,6 +32,7 @@ function formatCurrency(amount: number, currency: string = 'LKR'): string {
 export function DonationsTable({
   donations,
   showActions = false,
+  showCollectedBy = true,
   onEdit,
   onDelete,
 }: DonationsTableProps) {
@@ -103,10 +105,12 @@ export function DonationsTable({
                     : donation.source_country}
                 </span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Collected by</span>
-                <Badge variant="secondary">{donation.collected_by}</Badge>
-              </div>
+              {showCollectedBy && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Collected by</span>
+                  <Badge variant="secondary">{donation.collected_by}</Badge>
+                </div>
+              )}
               {showActions && (
                 <div className="flex gap-2 pt-2">
                   <Button
@@ -154,7 +158,7 @@ export function DonationsTable({
             <TableHead className="font-semibold">Currency</TableHead>
             <TableHead className="font-semibold text-right">Amount</TableHead>
             <TableHead className="font-semibold text-right">LKR Value</TableHead>
-            <TableHead className="font-semibold">Collected By</TableHead>
+            {showCollectedBy && <TableHead className="font-semibold">Collected By</TableHead>}
             {showActions && <TableHead className="font-semibold">Actions</TableHead>}
           </TableRow>
         </TableHeader>
@@ -183,18 +187,20 @@ export function DonationsTable({
               <TableCell className="text-right font-semibold">
                 {formatCurrency(donation.amount_lkr)}
               </TableCell>
-              <TableCell>
-                <Badge
-                  variant="secondary"
-                  className={cn(
-                    donation.collected_by === 'Ayash'
-                      ? 'bg-primary/10 text-primary'
-                      : 'bg-success/10 text-success'
-                  )}
-                >
-                  {donation.collected_by}
-                </Badge>
-              </TableCell>
+              {showCollectedBy && (
+                <TableCell>
+                  <Badge
+                    variant="secondary"
+                    className={cn(
+                      donation.collected_by === 'Ayash'
+                        ? 'bg-primary/10 text-primary'
+                        : 'bg-success/10 text-success'
+                    )}
+                  >
+                    {donation.collected_by}
+                  </Badge>
+                </TableCell>
+              )}
               {showActions && (
                 <TableCell>
                   <div className="flex gap-1">
