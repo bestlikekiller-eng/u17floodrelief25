@@ -68,7 +68,7 @@ const Index = () => {
           </div>
         ) : (
           <div className="animate-fade-in">
-            <DonationsTable donations={donations} />
+            <DonationsTable donations={donations} showCollectedBy={false} />
           </div>
         )}
       </section>
