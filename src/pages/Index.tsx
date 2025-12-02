@@ -1,6 +1,7 @@
 import { useDonations } from '@/hooks/useDonations';
 import { Header } from '@/components/Header';
 import { DonationStatsDisplay } from '@/components/DonationStats';
+import { DonationCTA } from '@/components/DonationCTA';
 import { DonationsTable } from '@/components/DonationsTable';
 import { Heart, Users, Shield } from 'lucide-react';
 
@@ -50,6 +51,9 @@ const Index = () => {
           <DonationStatsDisplay stats={stats} />
         </div>
       </section>
+
+      {/* Donation CTA Section */}
+      <DonationCTA />
 
       {/* Donations List */}
       <section className="container py-8 sm:py-12">
