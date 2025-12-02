@@ -1,7 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
-import { Heart, LogIn, LogOut, LayoutDashboard } from 'lucide-react';
+import { LogIn, LogOut, LayoutDashboard } from 'lucide-react';
+import unitedLogo from '@/assets/united17-logo.jpg';
 
 export function Header() {
   const { isLoggedIn, currentAdmin, logout } = useAuth();
@@ -10,10 +11,12 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 glass-effect">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg hero-gradient">
-            <Heart className="h-5 w-5 text-primary-foreground" />
-          </div>
+        <Link to="/" className="flex items-center gap-3 group">
+          <img 
+            src={unitedLogo} 
+            alt="United 17 Logo" 
+            className="h-12 w-12 rounded-lg object-cover shadow-md"
+          />
           <div className="hidden sm:block">
             <h1 className="font-display text-lg font-bold leading-tight text-foreground">
               United 17

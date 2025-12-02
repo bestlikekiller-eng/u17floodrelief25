@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Heart, Building2, Phone, Facebook } from 'lucide-react';
+import unitedLogo from '@/assets/united17-logo.jpg';
 
 const bankAccounts = [
   {
@@ -35,6 +36,11 @@ export function DonationCTA() {
         <CardContent className="p-6 sm:p-8">
           {/* Emotional Quote Section */}
           <div className="mb-8 text-center">
+            <img 
+              src={unitedLogo} 
+              alt="United 17 Logo" 
+              className="mx-auto mb-6 h-24 w-24 rounded-xl object-cover shadow-lg sm:h-32 sm:w-32"
+            />
             <div className="mb-4 inline-flex items-center justify-center gap-2 rounded-full bg-primary/10 px-4 py-2">
               <Heart className="h-5 w-5 text-primary" fill="currentColor" />
               <span className="font-medium text-primary">Join Our Mission</span>
