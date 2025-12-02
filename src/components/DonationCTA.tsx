@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, Building2, Phone, Facebook } from 'lucide-react';
+import { Heart, Building2, Phone, Facebook, Info, Globe, FileCheck } from 'lucide-react';
 import unitedLogo from '@/assets/united17-logo.jpg';
 
 const bankAccounts = [
@@ -57,6 +57,21 @@ export function DonationCTA() {
             </p>
           </div>
 
+          {/* Transparency Notice */}
+          <div className="mb-8 rounded-lg border border-primary/20 bg-primary/5 p-4">
+            <div className="flex items-start gap-3">
+              <FileCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
+              <div>
+                <h4 className="font-semibold text-foreground">Full Transparency Guaranteed</h4>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  This portal serves to track all donation amounts transparently. We will also be adding 
+                  <span className="font-medium text-foreground"> expenses, receipts, and proof photos </span> 
+                  for every transaction – so you can see exactly how your contributions are being utilized.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="grid gap-8 md:grid-cols-2">
             {/* Bank Accounts */}
             <div>
@@ -89,6 +104,17 @@ export function DonationCTA() {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* Payment Confirmation Note */}
+              <div className="mt-4 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3">
+                <div className="flex items-start gap-2">
+                  <Info className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
+                  <p className="text-xs text-amber-800 dark:text-amber-200">
+                    <span className="font-semibold">Important:</span> After making a transfer, please send the receipt 
+                    or let us know via WhatsApp so we can track and confirm your payment was received successfully.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -137,6 +163,24 @@ export function DonationCTA() {
                   <Facebook className="h-5 w-5" />
                   Follow us on Facebook
                 </a>
+              </div>
+
+              {/* International Donors Note */}
+              <div className="mt-6 rounded-lg border border-blue-500/30 bg-blue-500/10 p-4">
+                <div className="flex items-start gap-3">
+                  <Globe className="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-600" />
+                  <div>
+                    <h4 className="text-sm font-semibold text-blue-800 dark:text-blue-200">
+                      Donating from Abroad?
+                    </h4>
+                    <p className="mt-1 text-xs text-blue-700 dark:text-blue-300">
+                      Sri Lankans residing abroad or any foreign friends wishing to contribute – 
+                      we have other convenient transaction methods available! 
+                      <span className="font-medium"> Reach out to us via WhatsApp</span>, and we'll share 
+                      the method that works best for you to transfer directly.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
