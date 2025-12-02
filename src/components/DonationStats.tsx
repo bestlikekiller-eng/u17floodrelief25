@@ -7,12 +7,10 @@ interface DonationStatsProps {
 }
 
 function formatCurrency(amount: number, currency: string = 'LKR'): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency === 'LKR' ? 'LKR' : currency === 'AED' ? 'AED' : 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount).replace('LKR', 'Rs.').replace('USD', currency);
+  if (currency === 'LKR') {
+    return `Rs. ${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  }
+  return `${currency} ${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 export function DonationStatsDisplay({ stats }: DonationStatsProps) {
