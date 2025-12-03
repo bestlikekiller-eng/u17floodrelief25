@@ -19,7 +19,7 @@ export function useDonations(filterByCollector?: string) {
       let query = supabase
         .from('donations')
         .select('*')
-        .order('donation_date', { ascending: false });
+        .order('created_at', { ascending: false });
 
       if (filterByCollector) {
         query = query.eq('collected_by', filterByCollector);
