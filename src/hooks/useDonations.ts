@@ -10,6 +10,8 @@ export function useDonations(filterByCollector?: string) {
     totalLKR: 0,
     sriLankaTotal: 0,
     uaeTotal: { aed: 0, lkr: 0 },
+    germanyTotal: { eur: 0, lkr: 0 },
+    pakistanTotal: { pkr: 0, lkr: 0 },
     otherCountries: [],
   });
 
@@ -56,6 +58,10 @@ export function useDonations(filterByCollector?: string) {
     let sriLankaTotal = 0;
     let uaeAED = 0;
     let uaeLKR = 0;
+    let germanyEUR = 0;
+    let germanyLKR = 0;
+    let pakistanPKR = 0;
+    let pakistanLKR = 0;
     const otherMap: Record<string, { currency: string; amount: number; lkr: number }> = {};
 
     donationList.forEach((d) => {
@@ -66,6 +72,12 @@ export function useDonations(filterByCollector?: string) {
       } else if (d.source_country === 'UAE') {
         uaeAED += d.amount;
         uaeLKR += d.amount_lkr;
+      } else if (d.source_country === 'Germany') {
+        germanyEUR += d.amount;
+        germanyLKR += d.amount_lkr;
+      } else if (d.source_country === 'Pakistan') {
+        pakistanPKR += d.amount;
+        pakistanLKR += d.amount_lkr;
       } else if (d.source_country === 'Other' && d.country_name) {
         const key = `${d.country_name}-${d.currency}`;
         if (!otherMap[key]) {
@@ -85,6 +97,8 @@ export function useDonations(filterByCollector?: string) {
       totalLKR,
       sriLankaTotal,
       uaeTotal: { aed: uaeAED, lkr: uaeLKR },
+      germanyTotal: { eur: germanyEUR, lkr: germanyLKR },
+      pakistanTotal: { pkr: pakistanPKR, lkr: pakistanLKR },
       otherCountries,
     });
   };

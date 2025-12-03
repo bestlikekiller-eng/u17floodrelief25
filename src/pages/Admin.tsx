@@ -2,10 +2,12 @@ import { useState, useMemo } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDonations } from '@/hooks/useDonations';
+import { useMissions } from '@/hooks/useMissions';
 import { Header } from '@/components/Header';
 import { DonationStatsDisplay } from '@/components/DonationStats';
 import { DonationsTable } from '@/components/DonationsTable';
 import { DonationForm } from '@/components/DonationForm';
+import { MissionForm } from '@/components/MissionForm';
 import { DonationFilters, FilterOptions, applyFilters } from '@/components/DonationFilters';
 import { Button } from '@/components/ui/button';
 import {
@@ -27,35 +29,38 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Donation, DonationFormData, DonationStats } from '@/types/donation';
 import { exportDonationsPDF, exportPersonWisePDF } from '@/utils/pdfExport';
-import { Plus, Download, FileText, ChevronDown } from 'lucide-react';
+import { Plus, Download, FileText, ChevronDown, Target } from 'lucide-react';
 
 export default function Admin() {
   const { isLoggedIn, currentAdmin } = useAuth();
-  const { donations, loading, stats, addDonation, updateDonation, deleteDonation } =
+  const { donations, loading, addDonation, updateDonation, deleteDonation } =
     useDonations(currentAdmin || undefined);
+  const { missions, stats: missionStats, addMission } = useMissions();
 
   const [showForm, setShowForm] = useState(false);
+  const [showMissionForm, setShowMissionForm] = useState(false);
   const [editingDonation, setEditingDonation] = useState<Donation | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [filters, setFilters] = useState<FilterOptions>({});
 
-  // Get unique currencies for filter
   const currencies = useMemo(() => {
     const currencySet = new Set(donations.map((d) => d.currency));
     return Array.from(currencySet);
   }, [donations]);
 
-  // Apply filters to donations
   const filteredDonations = useMemo(() => {
     return applyFilters(donations, filters);
   }, [donations, filters]);
 
-  // Calculate stats for filtered donations
   const filteredStats = useMemo((): DonationStats => {
     let totalLKR = 0;
     let sriLankaTotal = 0;
     let uaeAED = 0;
     let uaeLKR = 0;
+    let germanyEUR = 0;
+    let germanyLKR = 0;
+    let pakistanPKR = 0;
+    let pakistanLKR = 0;
     const otherMap: Record<string, { currency: string; amount: number; lkr: number }> = {};
 
     filteredDonations.forEach((d) => {
@@ -65,6 +70,12 @@ export default function Admin() {
       } else if (d.source_country === 'UAE') {
         uaeAED += d.amount;
         uaeLKR += d.amount_lkr;
+      } else if (d.source_country === 'Germany') {
+        germanyEUR += d.amount;
+        germanyLKR += d.amount_lkr;
+      } else if (d.source_country === 'Pakistan') {
+        pakistanPKR += d.amount;
+        pakistanLKR += d.amount_lkr;
       } else if (d.source_country === 'Other' && d.country_name) {
         const key = `${d.country_name}-${d.currency}`;
         if (!otherMap[key]) {
@@ -79,6 +90,8 @@ export default function Admin() {
       totalLKR,
       sriLankaTotal,
       uaeTotal: { aed: uaeAED, lkr: uaeLKR },
+      germanyTotal: { eur: germanyEUR, lkr: germanyLKR },
+      pakistanTotal: { pkr: pakistanPKR, lkr: pakistanLKR },
       otherCountries: Object.entries(otherMap).map(([key, value]) => ({
         country: key.split('-')[0],
         ...value,
@@ -116,7 +129,7 @@ export default function Admin() {
     });
   };
 
-  const handleExportPerson = (person: 'Ayash' | 'Atheeq') => {
+  const handleExportPerson = (person: 'Ayash' | 'Atheeq' | 'Inas') => {
     exportPersonWisePDF(filteredDonations, person);
   };
 
@@ -125,7 +138,6 @@ export default function Admin() {
       <Header />
 
       <div className="container py-6 sm:py-8">
-        {/* Page Header */}
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="font-display text-2xl font-bold text-foreground sm:text-3xl">
@@ -141,6 +153,13 @@ export default function Admin() {
               <Plus className="mr-2 h-4 w-4" />
               Add Donation
             </Button>
+
+            {currentAdmin === 'Ayash' && (
+              <Button variant="secondary" onClick={() => setShowMissionForm(true)}>
+                <Target className="mr-2 h-4 w-4" />
+                Add Mission
+              </Button>
+            )}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -162,26 +181,22 @@ export default function Admin() {
                 <DropdownMenuItem onClick={() => handleExportPerson('Atheeq')}>
                   Atheeq's Donations
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleExportPerson('Inas')}>
+                  Inas's Donations
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
         </div>
 
-        {/* Stats */}
         <div className="mb-6">
-          <DonationStatsDisplay stats={filteredStats} />
+          <DonationStatsDisplay stats={filteredStats} totalSpent={missionStats.totalSpent} />
         </div>
 
-        {/* Filters */}
         <div className="mb-6">
-          <DonationFilters
-            filters={filters}
-            onFilterChange={setFilters}
-            currencies={currencies}
-          />
+          <DonationFilters filters={filters} onFilterChange={setFilters} currencies={currencies} />
         </div>
 
-        {/* Donations Table */}
         <div className="mb-6">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-display text-lg font-semibold text-foreground">
@@ -204,7 +219,6 @@ export default function Admin() {
         </div>
       </div>
 
-      {/* Donation Form Modal */}
       <DonationForm
         open={showForm}
         onClose={() => {
@@ -216,7 +230,15 @@ export default function Admin() {
         defaultCollector={currentAdmin || undefined}
       />
 
-      {/* Delete Confirmation Dialog */}
+      {currentAdmin === 'Ayash' && (
+        <MissionForm
+          open={showMissionForm}
+          onClose={() => setShowMissionForm(false)}
+          onSubmit={addMission}
+          createdBy={currentAdmin}
+        />
+      )}
+
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>

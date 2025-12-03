@@ -13,6 +13,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const ADMIN_CREDENTIALS: Record<string, string> = {
   'Ayash': 'Ayash123@#',
   'Atheeq': 'Atheeq887&*',
+  'Inas': 'Inas456$%',
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {

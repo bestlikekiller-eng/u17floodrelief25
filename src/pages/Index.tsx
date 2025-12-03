@@ -1,12 +1,15 @@
 import { useDonations } from '@/hooks/useDonations';
+import { useMissions } from '@/hooks/useMissions';
 import { Header } from '@/components/Header';
 import { DonationStatsDisplay } from '@/components/DonationStats';
 import { DonationCTA } from '@/components/DonationCTA';
 import { DonationsTable } from '@/components/DonationsTable';
+import { MissionsSection } from '@/components/MissionsSection';
 import { Heart, Users, Shield } from 'lucide-react';
 
 const Index = () => {
   const { donations, loading, stats } = useDonations();
+  const { missions, loading: missionsLoading, stats: missionStats } = useMissions();
 
   return (
     <div className="min-h-screen bg-background">
@@ -48,12 +51,9 @@ const Index = () => {
       {/* Stats Section */}
       <section className="container -mt-8 sm:-mt-12">
         <div className="animate-slide-up">
-          <DonationStatsDisplay stats={stats} />
+          <DonationStatsDisplay stats={stats} totalSpent={missionStats.totalSpent} />
         </div>
       </section>
-
-      {/* Donation CTA Section */}
-      <DonationCTA />
 
       {/* Donations List */}
       <section className="container py-8 sm:py-12">
@@ -76,6 +76,12 @@ const Index = () => {
           </div>
         )}
       </section>
+
+      {/* Missions/Actions Section */}
+      <MissionsSection missions={missions} loading={missionsLoading} stats={missionStats} />
+
+      {/* Donation CTA Section */}
+      <DonationCTA />
 
       {/* Footer */}
       <footer className="border-t border-border bg-muted/30 py-6">
