@@ -77,6 +77,131 @@ export type Database = {
         }
         Relationships: []
       }
+      mission_items: {
+        Row: {
+          created_at: string
+          id: string
+          item_name: string
+          mission_id: string
+          quantity: number
+          total_price: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_name: string
+          mission_id: string
+          quantity?: number
+          total_price?: number
+          unit_price?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_name?: string
+          mission_id?: string
+          quantity?: number
+          total_price?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mission_items_mission_id_fkey"
+            columns: ["mission_id"]
+            isOneToOne: false
+            referencedRelation: "missions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mission_photos: {
+        Row: {
+          created_at: string
+          id: string
+          linked_item_id: string | null
+          mission_id: string
+          photo_type: string
+          photo_url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          linked_item_id?: string | null
+          mission_id: string
+          photo_type: string
+          photo_url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          linked_item_id?: string | null
+          mission_id?: string
+          photo_type?: string
+          photo_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mission_photos_linked_item_id_fkey"
+            columns: ["linked_item_id"]
+            isOneToOne: false
+            referencedRelation: "mission_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mission_photos_mission_id_fkey"
+            columns: ["mission_id"]
+            isOneToOne: false
+            referencedRelation: "missions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      missions: {
+        Row: {
+          area: string
+          created_at: string
+          created_by: string
+          district: string
+          drive_link: string | null
+          id: string
+          mission_date: string
+          remarks: string | null
+          total_spent: number
+          updated_at: string
+          volunteer_names: string[] | null
+          volunteers_count: number | null
+        }
+        Insert: {
+          area: string
+          created_at?: string
+          created_by?: string
+          district: string
+          drive_link?: string | null
+          id?: string
+          mission_date: string
+          remarks?: string | null
+          total_spent?: number
+          updated_at?: string
+          volunteer_names?: string[] | null
+          volunteers_count?: number | null
+        }
+        Update: {
+          area?: string
+          created_at?: string
+          created_by?: string
+          district?: string
+          drive_link?: string | null
+          id?: string
+          mission_date?: string
+          remarks?: string | null
+          total_spent?: number
+          updated_at?: string
+          volunteer_names?: string[] | null
+          volunteers_count?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -85,7 +210,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      source_country: "Sri Lanka" | "UAE" | "Other"
+      source_country: "Sri Lanka" | "UAE" | "Other" | "Germany" | "Pakistan"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -213,7 +338,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      source_country: ["Sri Lanka", "UAE", "Other"],
+      source_country: ["Sri Lanka", "UAE", "Other", "Germany", "Pakistan"],
     },
   },
 } as const

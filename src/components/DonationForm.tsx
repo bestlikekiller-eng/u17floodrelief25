@@ -44,8 +44,8 @@ export function DonationForm({
   const [amountLKR, setAmountLKR] = useState('');
   const [donorName, setDonorName] = useState('');
   const [date, setDate] = useState<Date>(new Date());
-  const [collectedBy, setCollectedBy] = useState<'Ayash' | 'Atheeq'>(
-    (defaultCollector as 'Ayash' | 'Atheeq') || 'Ayash'
+  const [collectedBy, setCollectedBy] = useState<'Ayash' | 'Atheeq' | 'Inas'>(
+    (defaultCollector as 'Ayash' | 'Atheeq' | 'Inas') || 'Ayash'
   );
   const [loading, setLoading] = useState(false);
 
@@ -70,6 +70,10 @@ export function DonationForm({
       setAmountLKR(amount);
     } else if (sourceCountry === 'UAE') {
       setCurrency('AED');
+    } else if (sourceCountry === 'Germany') {
+      setCurrency('EUR');
+    } else if (sourceCountry === 'Pakistan') {
+      setCurrency('PKR');
     }
   }, [sourceCountry, amount]);
 
@@ -81,7 +85,7 @@ export function DonationForm({
     setAmountLKR('');
     setDonorName('');
     setDate(new Date());
-    setCollectedBy((defaultCollector as 'Ayash' | 'Atheeq') || 'Ayash');
+    setCollectedBy((defaultCollector as 'Ayash' | 'Atheeq' | 'Inas') || 'Ayash');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -131,6 +135,8 @@ export function DonationForm({
               <SelectContent>
                 <SelectItem value="Sri Lanka">Sri Lanka</SelectItem>
                 <SelectItem value="UAE">UAE</SelectItem>
+                <SelectItem value="Germany">Germany</SelectItem>
+                <SelectItem value="Pakistan">Pakistan</SelectItem>
                 <SelectItem value="Other">Other</SelectItem>
               </SelectContent>
             </Select>
@@ -238,7 +244,7 @@ export function DonationForm({
             <Label>Collected By *</Label>
             <Select
               value={collectedBy}
-              onValueChange={(v) => setCollectedBy(v as 'Ayash' | 'Atheeq')}
+              onValueChange={(v) => setCollectedBy(v as 'Ayash' | 'Atheeq' | 'Inas')}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select collector" />
@@ -246,6 +252,7 @@ export function DonationForm({
               <SelectContent>
                 <SelectItem value="Ayash">Ayash</SelectItem>
                 <SelectItem value="Atheeq">Atheeq</SelectItem>
+                <SelectItem value="Inas">Inas</SelectItem>
               </SelectContent>
             </Select>
           </div>

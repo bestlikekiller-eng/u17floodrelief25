@@ -1,4 +1,4 @@
-export type SourceCountry = 'Sri Lanka' | 'UAE' | 'Other';
+export type SourceCountry = 'Sri Lanka' | 'UAE' | 'Germany' | 'Pakistan' | 'Other';
 
 export interface Donation {
   id: string;
@@ -9,7 +9,7 @@ export interface Donation {
   amount_lkr: number;
   donor_name: string | null;
   donation_date: string;
-  collected_by: 'Ayash' | 'Atheeq';
+  collected_by: 'Ayash' | 'Atheeq' | 'Inas';
   created_at: string;
   updated_at: string;
 }
@@ -22,7 +22,7 @@ export interface DonationFormData {
   amount_lkr: number;
   donor_name?: string;
   donation_date: string;
-  collected_by: 'Ayash' | 'Atheeq';
+  collected_by: 'Ayash' | 'Atheeq' | 'Inas';
 }
 
 export interface Admin {
@@ -36,6 +36,14 @@ export interface DonationStats {
   sriLankaTotal: number;
   uaeTotal: {
     aed: number;
+    lkr: number;
+  };
+  germanyTotal: {
+    eur: number;
+    lkr: number;
+  };
+  pakistanTotal: {
+    pkr: number;
     lkr: number;
   };
   otherCountries: {
