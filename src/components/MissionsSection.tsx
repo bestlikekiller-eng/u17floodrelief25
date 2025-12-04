@@ -102,33 +102,50 @@ interface MissionCardProps {
 
 function MissionCard({ mission, onViewDetails }: MissionCardProps) {
   return (
-    <div className="rounded-lg border border-border bg-card p-4 hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between mb-3">
-        <div>
-          <h4 className="font-semibold text-foreground">{mission.district}</h4>
-          <p className="text-sm text-muted-foreground">{mission.area}</p>
+    <div className="rounded-lg border border-border bg-card overflow-hidden hover:shadow-md transition-shadow">
+      {/* Featured Image */}
+      {mission.featured_image_url ? (
+        <div className="aspect-video w-full overflow-hidden">
+          <img
+            src={mission.featured_image_url}
+            alt={`${mission.district} - ${mission.area}`}
+            className="w-full h-full object-cover"
+          />
         </div>
-        <Badge variant="secondary" className="text-xs">
-          {format(new Date(mission.mission_date), 'MMM dd')}
-        </Badge>
-      </div>
-
-      <div className="space-y-2 mb-4">
-        <div className="flex items-center gap-2 text-sm">
-          <Receipt className="h-4 w-4 text-muted-foreground" />
-          <span className="font-medium text-foreground">{formatCurrency(mission.total_spent)}</span>
+      ) : (
+        <div className="aspect-video w-full bg-muted flex items-center justify-center">
+          <Target className="h-12 w-12 text-muted-foreground/50" />
         </div>
-        {mission.volunteers_count > 0 && (
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Users className="h-4 w-4" />
-            <span>{mission.volunteers_count} volunteers</span>
+      )}
+      
+      <div className="p-4">
+        <div className="flex items-start justify-between mb-3">
+          <div>
+            <h4 className="font-semibold text-foreground">{mission.district}</h4>
+            <p className="text-sm text-muted-foreground">{mission.area}</p>
           </div>
-        )}
-      </div>
+          <Badge variant="secondary" className="text-xs">
+            {format(new Date(mission.mission_date), 'MMM dd')}
+          </Badge>
+        </div>
 
-      <Button variant="outline" size="sm" className="w-full" onClick={onViewDetails}>
-        View Details
-      </Button>
+        <div className="space-y-2 mb-4">
+          <div className="flex items-center gap-2 text-sm">
+            <Receipt className="h-4 w-4 text-muted-foreground" />
+            <span className="font-medium text-foreground">{formatCurrency(mission.total_spent)}</span>
+          </div>
+          {mission.volunteers_count > 0 && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Users className="h-4 w-4" />
+              <span>{mission.volunteers_count} volunteers</span>
+            </div>
+          )}
+        </div>
+
+        <Button variant="outline" size="sm" className="w-full" onClick={onViewDetails}>
+          View Details
+        </Button>
+      </div>
     </div>
   );
 }

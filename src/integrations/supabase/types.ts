@@ -164,6 +164,7 @@ export type Database = {
           created_by: string
           district: string
           drive_link: string | null
+          featured_image_url: string | null
           id: string
           mission_date: string
           remarks: string | null
@@ -178,6 +179,7 @@ export type Database = {
           created_by?: string
           district: string
           drive_link?: string | null
+          featured_image_url?: string | null
           id?: string
           mission_date: string
           remarks?: string | null
@@ -192,6 +194,7 @@ export type Database = {
           created_by?: string
           district?: string
           drive_link?: string | null
+          featured_image_url?: string | null
           id?: string
           mission_date?: string
           remarks?: string | null

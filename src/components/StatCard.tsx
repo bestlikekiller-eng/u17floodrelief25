@@ -6,7 +6,7 @@ interface StatCardProps {
   value: string;
   subtitle?: string;
   icon: ReactNode;
-  variant?: 'default' | 'primary' | 'success';
+  variant?: 'default' | 'primary' | 'success' | 'warning';
   className?: string;
 }
 
@@ -17,6 +17,7 @@ export function StatCard({ title, value, subtitle, icon, variant = 'default', cl
         'stat-card group hover:scale-[1.02] hover:shadow-elevated',
         variant === 'primary' && 'bg-primary text-primary-foreground',
         variant === 'success' && 'bg-success text-success-foreground',
+        variant === 'warning' && 'bg-amber-500 text-white',
         className
       )}
     >
@@ -49,7 +50,8 @@ export function StatCard({ title, value, subtitle, icon, variant = 'default', cl
             'flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110',
             variant === 'default' && 'bg-primary/10 text-primary',
             variant === 'primary' && 'bg-primary-foreground/20 text-primary-foreground',
-            variant === 'success' && 'bg-success-foreground/20 text-success-foreground'
+            variant === 'success' && 'bg-success-foreground/20 text-success-foreground',
+            variant === 'warning' && 'bg-white/20 text-white'
           )}
         >
           {icon}

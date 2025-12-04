@@ -55,6 +55,9 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Missions/Actions Section */}
+      <MissionsSection missions={missions} loading={missionsLoading} stats={missionStats} />
+
       {/* Donations List */}
       <section className="container py-8 sm:py-12">
         <div className="mb-6">
@@ -76,9 +79,6 @@ const Index = () => {
           </div>
         )}
       </section>
-
-      {/* Missions/Actions Section */}
-      <MissionsSection missions={missions} loading={missionsLoading} stats={missionStats} />
 
       {/* Donation CTA Section */}
       <DonationCTA />

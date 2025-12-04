@@ -235,28 +235,45 @@ export function DonationCTA() {
                 </div>
               </div>
 
-              {/* Online Donation Link */}
+              {/* Online Donation Links */}
               <div className="flex flex-col rounded-lg border border-border bg-card p-4 shadow-sm">
                 <div className="mb-3 flex items-center gap-2">
                   <ExternalLink className="h-5 w-5 text-blue-600" />
                   <span className="font-semibold text-foreground">Online Donation</span>
                 </div>
                 <p className="mb-4 flex-1 text-sm text-muted-foreground">
-                  Prefer to donate online? Use our secure donation platform powered by GoodCrowd.
+                  Prefer to donate online? Use our secure donation platform powered by GoodCrowd. 
+                  Choose your preferred language below.
                 </p>
-                <Button
-                  asChild
-                  className="w-full bg-emerald-600 hover:bg-emerald-700"
-                >
-                  <a
-                    href="https://www.goodcrowd.org/helfen-sie-sri-lanka-wieder-aufzubauen"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                <div className="space-y-2">
+                  <Button
+                    asChild
+                    className="w-full bg-emerald-600 hover:bg-emerald-700"
                   >
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    Donate Online via GoodCrowd
-                  </a>
-                </Button>
+                    <a
+                      href="https://www.goodcrowd.org/help-sri-lanka-rebuild"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink className="mr-2 h-4 w-4" />
+                      Donate Online (English)
+                    </a>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="w-full border-emerald-600 text-emerald-600 hover:bg-emerald-50"
+                  >
+                    <a
+                      href="https://www.goodcrowd.org/helfen-sie-sri-lanka-wieder-aufzubauen"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink className="mr-2 h-4 w-4" />
+                      Spenden (Deutsch)
+                    </a>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
