@@ -34,7 +34,7 @@ interface ItemInput {
 
 interface PhotoUpload {
   file: File;
-  type: 'receipt' | 'item' | 'proof';
+  type: 'receipt' | 'item' | 'proof' | 'featured';
   preview: string;
 }
 
@@ -53,6 +53,8 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
   const receiptInputRef = useRef<HTMLInputElement>(null);
   const itemInputRef = useRef<HTMLInputElement>(null);
   const proofInputRef = useRef<HTMLInputElement>(null);
+  const featuredInputRef = useRef<HTMLInputElement>(null);
+  const [featuredImage, setFeaturedImage] = useState<{ file: File; preview: string } | null>(null);
 
   const totalSpent = items.reduce((sum, item) => sum + item.total_price, 0);
 
@@ -107,6 +109,8 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
     setItems([]);
     photos.forEach((p) => URL.revokeObjectURL(p.preview));
     setPhotos([]);
+    if (featuredImage) URL.revokeObjectURL(featuredImage.preview);
+    setFeaturedImage(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -114,6 +118,25 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
     setLoading(true);
 
     try {
+      let featuredImageUrl: string | undefined;
+
+      // Upload featured image first
+      if (featuredImage) {
+        const fileExt = featuredImage.file.name.split('.').pop();
+        const fileName = `featured/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('mission-photos')
+          .upload(fileName, featuredImage.file);
+
+        if (!uploadError) {
+          const { data: { publicUrl } } = supabase.storage
+            .from('mission-photos')
+            .getPublicUrl(fileName);
+          featuredImageUrl = publicUrl;
+        }
+      }
+
       // First create the mission
       const formData: MissionFormData = {
         district,
@@ -124,6 +147,7 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
         volunteers_count: volunteersCount ? parseInt(volunteersCount) : 0,
         volunteer_names: volunteerNames ? volunteerNames.split(',').map((n) => n.trim()) : undefined,
         drive_link: driveLink || undefined,
+        featured_image_url: featuredImageUrl,
         created_by: createdBy,
         items: items.length > 0 ? items : undefined,
       };
@@ -140,6 +164,7 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
           volunteers_count: formData.volunteers_count,
           volunteer_names: formData.volunteer_names,
           drive_link: formData.drive_link,
+          featured_image_url: formData.featured_image_url,
           created_by: formData.created_by,
         }])
         .select()
@@ -513,6 +538,55 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
                 </div>
               )}
             </div>
+          </div>
+
+          {/* Featured Image */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label>Featured Image (for homepage display)</Label>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => featuredInputRef.current?.click()}
+              >
+                <Upload className="mr-1 h-4 w-4" />
+                Upload
+              </Button>
+              <input
+                ref={featuredInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    if (featuredImage) URL.revokeObjectURL(featuredImage.preview);
+                    setFeaturedImage({ file, preview: URL.createObjectURL(file) });
+                  }
+                  e.target.value = '';
+                }}
+              />
+            </div>
+            {featuredImage && (
+              <div className="relative inline-block">
+                <img
+                  src={featuredImage.preview}
+                  alt="Featured"
+                  className="w-32 h-20 object-cover rounded-lg border"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    URL.revokeObjectURL(featuredImage.preview);
+                    setFeaturedImage(null);
+                  }}
+                  className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Drive Link */}

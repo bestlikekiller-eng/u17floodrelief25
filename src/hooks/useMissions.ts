@@ -31,6 +31,7 @@ export interface Mission {
   volunteers_count: number;
   volunteer_names: string[] | null;
   drive_link: string | null;
+  featured_image_url: string | null;
   created_by: string;
   created_at: string;
   updated_at: string;
@@ -47,6 +48,7 @@ export interface MissionFormData {
   volunteers_count?: number;
   volunteer_names?: string[];
   drive_link?: string;
+  featured_image_url?: string;
   created_by: string;
   items?: Omit<MissionItem, 'id' | 'mission_id' | 'created_at'>[];
 }
