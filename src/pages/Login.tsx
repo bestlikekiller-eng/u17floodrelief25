@@ -11,7 +11,7 @@ import { toast } from '@/hooks/use-toast';
 import { Lock, User, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const ADMINS = ['Ayash', 'Atheeq'] as const;
+const ADMINS = ['Ayash', 'Atheeq', 'Inas'] as const;
 
 export default function Login() {
   const [selectedAdmin, setSelectedAdmin] = useState<string | null>(null);
@@ -72,7 +72,7 @@ export default function Login() {
               {/* Admin Selection */}
               <div className="space-y-3">
                 <Label>Select Admin</Label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {ADMINS.map((admin) => (
                     <button
                       key={admin}
