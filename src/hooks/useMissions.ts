@@ -207,6 +207,53 @@ export function useMissions() {
     }
   };
 
+  const updateMission = async (id: string, formData: Partial<MissionFormData>) => {
+    try {
+      const { items, ...missionData } = formData;
+
+      const { error: missionError } = await supabase
+        .from('missions')
+        .update(missionData)
+        .eq('id', id);
+
+      if (missionError) throw missionError;
+
+      // Update items: delete old ones and insert new ones
+      if (items !== undefined) {
+        await supabase.from('mission_items').delete().eq('mission_id', id);
+        
+        if (items.length > 0) {
+          const itemsWithMissionId = items.map((item) => ({
+            ...item,
+            mission_id: id,
+          }));
+
+          const { error: itemsError } = await supabase
+            .from('mission_items')
+            .insert(itemsWithMissionId);
+
+          if (itemsError) throw itemsError;
+        }
+      }
+
+      toast({
+        title: 'Success',
+        description: 'Mission updated successfully',
+      });
+
+      fetchMissions();
+      return true;
+    } catch (error) {
+      console.error('Error updating mission:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to update mission',
+        variant: 'destructive',
+      });
+      return false;
+    }
+  };
+
   const deleteMission = async (id: string) => {
     try {
       const { error } = await supabase.from('missions').delete().eq('id', id);
@@ -240,6 +287,7 @@ export function useMissions() {
     loading,
     stats,
     addMission,
+    updateMission,
     uploadPhoto,
     deleteMission,
     refetch: fetchMissions,

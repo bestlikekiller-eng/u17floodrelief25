@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,7 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { CalendarIcon, Plus, Trash2, Upload, X, Save } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { MissionFormData, MissionItem } from '@/hooks/useMissions';
+import { MissionFormData, Mission } from '@/hooks/useMissions';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 
@@ -23,6 +23,7 @@ interface MissionFormProps {
   onClose: () => void;
   onSubmit: (data: MissionFormData) => Promise<boolean>;
   createdBy: string;
+  editingMission?: Mission | null;
 }
 
 interface ItemInput {
@@ -38,7 +39,7 @@ interface PhotoUpload {
   preview: string;
 }
 
-export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormProps) {
+export function MissionForm({ open, onClose, onSubmit, createdBy, editingMission }: MissionFormProps) {
   const [district, setDistrict] = useState('');
   const [area, setArea] = useState('');
   const [date, setDate] = useState<Date>(new Date());
@@ -49,6 +50,7 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
   const [items, setItems] = useState<ItemInput[]>([]);
   const [photos, setPhotos] = useState<PhotoUpload[]>([]);
   const [loading, setLoading] = useState(false);
+  const [existingFeaturedImage, setExistingFeaturedImage] = useState<string | null>(null);
 
   const receiptInputRef = useRef<HTMLInputElement>(null);
   const itemInputRef = useRef<HTMLInputElement>(null);
@@ -57,6 +59,31 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
   const [featuredImage, setFeaturedImage] = useState<{ file: File; preview: string } | null>(null);
 
   const totalSpent = items.reduce((sum, item) => sum + item.total_price, 0);
+
+  // Populate form when editing
+  useEffect(() => {
+    if (editingMission) {
+      setDistrict(editingMission.district);
+      setArea(editingMission.area);
+      setDate(new Date(editingMission.mission_date));
+      setRemarks(editingMission.remarks || '');
+      setVolunteersCount(editingMission.volunteers_count?.toString() || '');
+      setVolunteerNames(editingMission.volunteer_names?.join(', ') || '');
+      setDriveLink(editingMission.drive_link || '');
+      setExistingFeaturedImage(editingMission.featured_image_url);
+      
+      if (editingMission.items && editingMission.items.length > 0) {
+        setItems(editingMission.items.map(item => ({
+          item_name: item.item_name,
+          quantity: item.quantity,
+          unit_price: item.unit_price,
+          total_price: item.total_price,
+        })));
+      }
+    } else {
+      resetForm();
+    }
+  }, [editingMission, open]);
 
   const addItem = () => {
     setItems([...items, { item_name: '', quantity: 1, unit_price: 0, total_price: 0 }]);
@@ -111,6 +138,7 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
     setPhotos([]);
     if (featuredImage) URL.revokeObjectURL(featuredImage.preview);
     setFeaturedImage(null);
+    setExistingFeaturedImage(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -118,9 +146,9 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
     setLoading(true);
 
     try {
-      let featuredImageUrl: string | undefined;
+      let featuredImageUrl: string | undefined = existingFeaturedImage || undefined;
 
-      // Upload featured image first
+      // Upload new featured image if provided
       if (featuredImage) {
         const fileExt = featuredImage.file.name.split('.').pop();
         const fileName = `featured/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
@@ -137,97 +165,104 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
         }
       }
 
-      // First create the mission
-      const formData: MissionFormData = {
-        district,
-        area,
-        total_spent: totalSpent,
-        mission_date: format(date, 'yyyy-MM-dd'),
-        remarks: remarks || undefined,
-        volunteers_count: volunteersCount ? parseInt(volunteersCount) : 0,
-        volunteer_names: volunteerNames ? volunteerNames.split(',').map((n) => n.trim()) : undefined,
-        drive_link: driveLink || undefined,
-        featured_image_url: featuredImageUrl,
-        created_by: createdBy,
-        items: items.length > 0 ? items : undefined,
-      };
+      if (editingMission) {
+        // Update existing mission
+        const formData: MissionFormData = {
+          district,
+          area,
+          total_spent: totalSpent || editingMission.total_spent,
+          mission_date: format(date, 'yyyy-MM-dd'),
+          remarks: remarks || undefined,
+          volunteers_count: volunteersCount ? parseInt(volunteersCount) : 0,
+          volunteer_names: volunteerNames ? volunteerNames.split(',').map((n) => n.trim()) : undefined,
+          drive_link: driveLink || undefined,
+          featured_image_url: featuredImageUrl,
+          created_by: createdBy,
+          items: items.length > 0 ? items : undefined,
+        };
 
-      // Insert mission and get the ID
-      const { data: mission, error: missionError } = await supabase
-        .from('missions')
-        .insert([{
-          district: formData.district,
-          area: formData.area,
-          total_spent: formData.total_spent,
-          mission_date: formData.mission_date,
-          remarks: formData.remarks,
-          volunteers_count: formData.volunteers_count,
-          volunteer_names: formData.volunteer_names,
-          drive_link: formData.drive_link,
-          featured_image_url: formData.featured_image_url,
-          created_by: formData.created_by,
-        }])
-        .select()
-        .single();
+        const success = await onSubmit(formData);
+        if (success) {
+          resetForm();
+          onClose();
+        }
+      } else {
+        // Create new mission
+        const { data: mission, error: missionError } = await supabase
+          .from('missions')
+          .insert([{
+            district,
+            area,
+            total_spent: totalSpent,
+            mission_date: format(date, 'yyyy-MM-dd'),
+            remarks: remarks || undefined,
+            volunteers_count: volunteersCount ? parseInt(volunteersCount) : 0,
+            volunteer_names: volunteerNames ? volunteerNames.split(',').map((n) => n.trim()) : undefined,
+            drive_link: driveLink || undefined,
+            featured_image_url: featuredImageUrl,
+            created_by: createdBy,
+          }])
+          .select()
+          .single();
 
-      if (missionError) throw missionError;
+        if (missionError) throw missionError;
 
-      // Add items if any
-      if (formData.items && formData.items.length > 0) {
-        const itemsWithMissionId = formData.items.map((item) => ({
-          mission_id: mission.id,
-          item_name: item.item_name,
-          quantity: item.quantity,
-          unit_price: item.unit_price,
-          total_price: item.total_price,
-        }));
+        // Add items if any
+        if (items.length > 0) {
+          const itemsWithMissionId = items.map((item) => ({
+            mission_id: mission.id,
+            item_name: item.item_name,
+            quantity: item.quantity,
+            unit_price: item.unit_price,
+            total_price: item.total_price,
+          }));
 
-        const { error: itemsError } = await supabase
-          .from('mission_items')
-          .insert(itemsWithMissionId);
+          const { error: itemsError } = await supabase
+            .from('mission_items')
+            .insert(itemsWithMissionId);
 
-        if (itemsError) throw itemsError;
-      }
-
-      // Upload photos
-      for (const photo of photos) {
-        const fileExt = photo.file.name.split('.').pop();
-        const fileName = `${mission.id}/${photo.type}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from('mission-photos')
-          .upload(fileName, photo.file);
-
-        if (uploadError) {
-          console.error('Upload error:', uploadError);
-          continue;
+          if (itemsError) throw itemsError;
         }
 
-        const { data: { publicUrl } } = supabase.storage
-          .from('mission-photos')
-          .getPublicUrl(fileName);
+        // Upload photos
+        for (const photo of photos) {
+          const fileExt = photo.file.name.split('.').pop();
+          const fileName = `${mission.id}/${photo.type}/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
 
-        await supabase.from('mission_photos').insert([{
-          mission_id: mission.id,
-          photo_type: photo.type,
-          photo_url: publicUrl,
-        }]);
+          const { error: uploadError } = await supabase.storage
+            .from('mission-photos')
+            .upload(fileName, photo.file);
+
+          if (uploadError) {
+            console.error('Upload error:', uploadError);
+            continue;
+          }
+
+          const { data: { publicUrl } } = supabase.storage
+            .from('mission-photos')
+            .getPublicUrl(fileName);
+
+          await supabase.from('mission_photos').insert([{
+            mission_id: mission.id,
+            photo_type: photo.type,
+            photo_url: publicUrl,
+          }]);
+        }
+
+        toast({
+          title: 'Success',
+          description: 'Mission added successfully',
+        });
+
+        resetForm();
+        onClose();
+        window.location.reload();
       }
-
-      toast({
-        title: 'Success',
-        description: 'Mission added successfully',
-      });
-
-      resetForm();
-      onClose();
-      // Trigger a refetch
-      window.location.reload();
     } catch (error) {
-      console.error('Error adding mission:', error);
+      console.error('Error saving mission:', error);
       toast({
         title: 'Error',
-        description: 'Failed to add mission',
+        description: 'Failed to save mission',
         variant: 'destructive',
       });
     } finally {
@@ -243,7 +278,7 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
     <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display">Add New Mission</DialogTitle>
+          <DialogTitle className="font-display">{editingMission ? 'Edit Mission' : 'Add New Mission'}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -360,18 +395,6 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
             )}
           </div>
 
-          {/* Manual Total (if no items) */}
-          {items.length === 0 && (
-            <div className="space-y-2">
-              <Label>Total Spent (Rs.) *</Label>
-              <Input
-                type="number"
-                step="0.01"
-                placeholder="Enter total amount spent"
-              />
-            </div>
-          )}
-
           {/* Remarks */}
           <div className="space-y-2">
             <Label>Remarks</Label>
@@ -404,141 +427,143 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
             </div>
           </div>
 
-          {/* Photos */}
-          <div className="space-y-4">
-            <Label>Photos</Label>
+          {/* Photos - Only show for new missions */}
+          {!editingMission && (
+            <div className="space-y-4">
+              <Label>Photos</Label>
 
-            {/* Receipt Photos */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Receipt Photos</span>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => receiptInputRef.current?.click()}
-                >
-                  <Upload className="mr-1 h-4 w-4" />
-                  Upload
-                </Button>
-                <input
-                  ref={receiptInputRef}
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  className="hidden"
-                  onChange={(e) => handlePhotoUpload(e, 'receipt')}
-                />
-              </div>
-              {receiptPhotos.length > 0 && (
-                <div className="flex gap-2 flex-wrap">
-                  {receiptPhotos.map((photo, idx) => (
-                    <div key={idx} className="relative">
-                      <img
-                        src={photo.preview}
-                        alt="Receipt"
-                        className="w-20 h-20 object-cover rounded-lg border"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removePhoto(photos.indexOf(photo))}
-                        className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
-                    </div>
-                  ))}
+              {/* Receipt Photos */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Receipt Photos</span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => receiptInputRef.current?.click()}
+                  >
+                    <Upload className="mr-1 h-4 w-4" />
+                    Upload
+                  </Button>
+                  <input
+                    ref={receiptInputRef}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={(e) => handlePhotoUpload(e, 'receipt')}
+                  />
                 </div>
-              )}
-            </div>
+                {receiptPhotos.length > 0 && (
+                  <div className="flex gap-2 flex-wrap">
+                    {receiptPhotos.map((photo, idx) => (
+                      <div key={idx} className="relative">
+                        <img
+                          src={photo.preview}
+                          alt="Receipt"
+                          className="w-20 h-20 object-cover rounded-lg border"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removePhoto(photos.indexOf(photo))}
+                          className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
 
-            {/* Item Photos */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Item Photos</span>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => itemInputRef.current?.click()}
-                >
-                  <Upload className="mr-1 h-4 w-4" />
-                  Upload
-                </Button>
-                <input
-                  ref={itemInputRef}
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  className="hidden"
-                  onChange={(e) => handlePhotoUpload(e, 'item')}
-                />
-              </div>
-              {itemPhotos.length > 0 && (
-                <div className="flex gap-2 flex-wrap">
-                  {itemPhotos.map((photo, idx) => (
-                    <div key={idx} className="relative">
-                      <img
-                        src={photo.preview}
-                        alt="Item"
-                        className="w-20 h-20 object-cover rounded-lg border"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removePhoto(photos.indexOf(photo))}
-                        className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
-                    </div>
-                  ))}
+              {/* Item Photos */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Item Photos</span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => itemInputRef.current?.click()}
+                  >
+                    <Upload className="mr-1 h-4 w-4" />
+                    Upload
+                  </Button>
+                  <input
+                    ref={itemInputRef}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={(e) => handlePhotoUpload(e, 'item')}
+                  />
                 </div>
-              )}
-            </div>
+                {itemPhotos.length > 0 && (
+                  <div className="flex gap-2 flex-wrap">
+                    {itemPhotos.map((photo, idx) => (
+                      <div key={idx} className="relative">
+                        <img
+                          src={photo.preview}
+                          alt="Item"
+                          className="w-20 h-20 object-cover rounded-lg border"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removePhoto(photos.indexOf(photo))}
+                          className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
 
-            {/* Proof Photos */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Proof Photo with Volunteers</span>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => proofInputRef.current?.click()}
-                >
-                  <Upload className="mr-1 h-4 w-4" />
-                  Upload
-                </Button>
-                <input
-                  ref={proofInputRef}
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => handlePhotoUpload(e, 'proof')}
-                />
-              </div>
-              {proofPhotos.length > 0 && (
-                <div className="flex gap-2 flex-wrap">
-                  {proofPhotos.map((photo, idx) => (
-                    <div key={idx} className="relative">
-                      <img
-                        src={photo.preview}
-                        alt="Proof"
-                        className="w-20 h-20 object-cover rounded-lg border"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removePhoto(photos.indexOf(photo))}
-                        className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
-                    </div>
-                  ))}
+              {/* Proof Photos */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Proof Photo with Volunteers</span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => proofInputRef.current?.click()}
+                  >
+                    <Upload className="mr-1 h-4 w-4" />
+                    Upload
+                  </Button>
+                  <input
+                    ref={proofInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => handlePhotoUpload(e, 'proof')}
+                  />
                 </div>
-              )}
+                {proofPhotos.length > 0 && (
+                  <div className="flex gap-2 flex-wrap">
+                    {proofPhotos.map((photo, idx) => (
+                      <div key={idx} className="relative">
+                        <img
+                          src={photo.preview}
+                          alt="Proof"
+                          className="w-20 h-20 object-cover rounded-lg border"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removePhoto(photos.indexOf(photo))}
+                          className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Featured Image */}
           <div className="space-y-2">
@@ -563,23 +588,25 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
                   if (file) {
                     if (featuredImage) URL.revokeObjectURL(featuredImage.preview);
                     setFeaturedImage({ file, preview: URL.createObjectURL(file) });
+                    setExistingFeaturedImage(null);
                   }
                   e.target.value = '';
                 }}
               />
             </div>
-            {featuredImage && (
+            {(featuredImage || existingFeaturedImage) && (
               <div className="relative inline-block">
                 <img
-                  src={featuredImage.preview}
+                  src={featuredImage?.preview || existingFeaturedImage || ''}
                   alt="Featured"
                   className="w-32 h-20 object-cover rounded-lg border"
                 />
                 <button
                   type="button"
                   onClick={() => {
-                    URL.revokeObjectURL(featuredImage.preview);
+                    if (featuredImage) URL.revokeObjectURL(featuredImage.preview);
                     setFeaturedImage(null);
+                    setExistingFeaturedImage(null);
                   }}
                   className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1"
                 >
@@ -607,7 +634,7 @@ export function MissionForm({ open, onClose, onSubmit, createdBy }: MissionFormP
             </Button>
             <Button type="submit" className="flex-1" disabled={loading}>
               <Save className="mr-2 h-4 w-4" />
-              {loading ? 'Saving...' : 'Save Mission'}
+              {loading ? 'Saving...' : (editingMission ? 'Update Mission' : 'Save Mission')}
             </Button>
           </div>
         </form>
