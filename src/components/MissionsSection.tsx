@@ -89,7 +89,7 @@ export function MissionsSection({ missions, loading, stats }: MissionsSectionPro
 
       {/* Mission Details Dialog */}
       <Dialog open={!!selectedMission} onOpenChange={() => setSelectedMission(null)}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-0">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto p-0 gap-0">
           {selectedMission && (
             <MissionDetails
               mission={selectedMission}
@@ -189,10 +189,10 @@ function MissionDetails({ mission, onImageClick }: MissionDetailsProps) {
   const proofPhotos = mission.photos?.filter((p) => p.photo_type === 'proof') || [];
 
   return (
-    <>
+    <div className="flex flex-col">
       {/* Featured Image Header */}
       {mission.featured_image_url && (
-        <div className="w-full aspect-video overflow-hidden">
+        <div className="w-full aspect-video overflow-hidden relative">
           <img
             src={mission.featured_image_url}
             alt={`${mission.district} - ${mission.area}`}
@@ -202,7 +202,7 @@ function MissionDetails({ mission, onImageClick }: MissionDetailsProps) {
       )}
 
       <div className="p-6">
-        <DialogHeader>
+        <DialogHeader className="mb-4">
           <DialogTitle className="font-display text-xl">
             {mission.district} - {mission.area}
           </DialogTitle>
@@ -384,6 +384,6 @@ function MissionDetails({ mission, onImageClick }: MissionDetailsProps) {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
