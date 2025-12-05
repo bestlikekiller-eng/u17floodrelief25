@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDonations } from '@/hooks/useDonations';
-import { useMissions } from '@/hooks/useMissions';
+import { useMissions, Mission, MissionFormData } from '@/hooks/useMissions';
 import { Header } from '@/components/Header';
 import { DonationsTable } from '@/components/DonationsTable';
 import { DonationForm } from '@/components/DonationForm';
@@ -22,9 +22,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Donation, DonationFormData, DonationStats } from '@/types/donation';
-import { Mission } from '@/hooks/useMissions';
 import { exportDonationsPDF, exportPersonWisePDF } from '@/utils/pdfExport';
-import { Plus, Download, FileText, ChevronDown, Target, Wallet, TrendingDown, Scale, MapPin, Landmark, Globe, Users, Calendar, Trash2, Eye } from 'lucide-react';
+import { Plus, Download, FileText, ChevronDown, Target, Wallet, TrendingDown, Scale, MapPin, Landmark, Globe, Users, Calendar, Trash2, Eye, Edit } from 'lucide-react';
 import { format } from 'date-fns';
 
 function formatCurrency(amount: number, currency: string = 'LKR'): string {
@@ -35,11 +34,12 @@ function formatCurrency(amount: number, currency: string = 'LKR'): string {
 export default function Admin() {
   const { isLoggedIn, currentAdmin } = useAuth();
   const { donations: allDonations, loading, addDonation, updateDonation, deleteDonation } = useDonations();
-  const { missions, stats: missionStats, addMission, deleteMission } = useMissions();
+  const { missions, stats: missionStats, addMission, updateMission, deleteMission } = useMissions();
 
   const [showForm, setShowForm] = useState(false);
   const [showMissionForm, setShowMissionForm] = useState(false);
   const [editingDonation, setEditingDonation] = useState<Donation | null>(null);
+  const [editingMission, setEditingMission] = useState<Mission | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteMissionId, setDeleteMissionId] = useState<string | null>(null);
   const [filters, setFilters] = useState<FilterOptions>({});
@@ -80,6 +80,23 @@ export default function Admin() {
   const handleDeleteMission = async () => { if (deleteMissionId) { await deleteMission(deleteMissionId); setDeleteMissionId(null); } };
   const handleExportAll = () => exportDonationsPDF(filteredDonations, myStats, { title: 'All Donations Report', dateRange: { start: filters.startDate, end: filters.endDate } });
   const handleExportPerson = (person: 'Ayash' | 'Atheeq' | 'Inas') => exportPersonWisePDF(allDonations, person);
+  
+  const handleMissionSubmit = async (data: MissionFormData) => {
+    if (editingMission) {
+      return await updateMission(editingMission.id, data);
+    }
+    return await addMission(data);
+  };
+
+  const handleEditMission = (mission: Mission) => {
+    setEditingMission(mission);
+    setShowMissionForm(true);
+  };
+
+  const handleCloseMissionForm = () => {
+    setShowMissionForm(false);
+    setEditingMission(null);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -147,6 +164,7 @@ export default function Admin() {
                       <div className="flex items-center gap-3">
                         <Badge variant="secondary" className="font-semibold">{formatCurrency(mission.total_spent)}</Badge>
                         <Button variant="ghost" size="icon" onClick={() => setSelectedMission(mission)}><Eye className="h-4 w-4" /></Button>
+                        <Button variant="ghost" size="icon" onClick={() => handleEditMission(mission)}><Edit className="h-4 w-4" /></Button>
                         <Button variant="ghost" size="icon" onClick={() => setDeleteMissionId(mission.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
                       </div>
                     </div>
@@ -172,7 +190,15 @@ export default function Admin() {
       </div>
 
       <DonationForm open={showForm} onClose={() => { setShowForm(false); setEditingDonation(null); }} onSubmit={handleSubmit} editingDonation={editingDonation} defaultCollector={currentAdmin || undefined} />
-      {currentAdmin === 'Ayash' && <MissionForm open={showMissionForm} onClose={() => setShowMissionForm(false)} onSubmit={addMission} createdBy={currentAdmin} />}
+      {currentAdmin === 'Ayash' && (
+        <MissionForm 
+          open={showMissionForm} 
+          onClose={handleCloseMissionForm} 
+          onSubmit={handleMissionSubmit} 
+          createdBy={currentAdmin} 
+          editingMission={editingMission}
+        />
+      )}
 
       <Dialog open={!!selectedMission} onOpenChange={() => setSelectedMission(null)}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
