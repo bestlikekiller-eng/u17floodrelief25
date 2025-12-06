@@ -6,7 +6,7 @@ import { Heart, Sparkles } from 'lucide-react';
 export function ThankYouSection() {
   return (
     <section className="container py-8 sm:py-12">
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-background to-emerald-500/10 p-8 sm:p-12 border border-primary/20 shadow-xl">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-background to-emerald-500/10 p-8 sm:p-12">
         {/* Background decorative elements */}
         <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-primary/5 blur-3xl" />
         <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-emerald-500/5 blur-3xl" />
@@ -24,15 +24,23 @@ export function ThankYouSection() {
         </div>
 
         <div className="relative z-10 text-center">
-          {/* Thank you badge */}
-          <div className="mb-6">
+          {/* Thank you message */}
+          <div className="mb-8">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2">
               <Heart className="h-5 w-5 text-primary" fill="currentColor" />
               <span className="text-sm font-semibold text-primary">From Our Hearts</span>
             </div>
             <h2 className="font-display text-2xl font-bold text-foreground sm:text-3xl lg:text-4xl">
-              United 17 × Sri Lankans in the UAE
+              A Heartfelt Thank You
             </h2>
+            <p className="mx-auto mt-4 max-w-3xl text-base text-muted-foreground sm:text-lg leading-relaxed">
+              We extend our deepest gratitude to all who have contributed to this noble cause – 
+              our beloved <span className="font-semibold text-foreground">United 17 members</span>, 
+              dear <span className="font-semibold text-foreground">friends and family</span>, 
+              <span className="font-semibold text-foreground"> well-wishers</span>, and 
+              <span className="font-semibold text-foreground"> international supporters</span> who 
+              opened their hearts for our flood-affected brothers and sisters.
+            </p>
           </div>
 
           {/* United 17 x Flags Logo */}
@@ -40,43 +48,41 @@ export function ThankYouSection() {
             <img 
               src={sriLankaFlag} 
               alt="Sri Lanka Flag" 
-              className="h-12 w-auto rounded shadow-md sm:h-16 ring-2 ring-primary/10"
+              className="h-12 w-auto rounded shadow-md sm:h-16"
             />
             <div className="flex items-center gap-3">
               <img 
                 src={unitedLogo} 
                 alt="United 17 Logo" 
-                className="h-16 w-16 rounded-xl object-cover shadow-lg sm:h-20 sm:w-20 ring-4 ring-primary/20"
+                className="h-16 w-16 rounded-xl object-cover shadow-lg sm:h-20 sm:w-20"
               />
               <span className="font-display text-2xl font-bold text-primary sm:text-3xl">×</span>
             </div>
             <img 
               src={uaeFlag} 
               alt="UAE Flag" 
-              className="h-12 w-auto rounded shadow-md sm:h-16 ring-2 ring-primary/10"
+              className="h-12 w-auto rounded shadow-md sm:h-16"
             />
           </div>
 
-          {/* Combined message in one card */}
-          <div className="rounded-xl bg-card/80 backdrop-blur-sm border border-border/50 p-8 shadow-lg">
-            <p className="mx-auto max-w-3xl text-base text-muted-foreground sm:text-lg leading-relaxed">
-              Together with our Sri Lankan community living in the UAE, we stand united in this mission of hope and solidarity. 
-              We extend our deepest gratitude to all who have contributed to this noble cause – 
-              our beloved <span className="font-semibold text-foreground">United 17 members</span>, 
-              dear <span className="font-semibold text-foreground">friends and family</span>, 
-              <span className="font-semibold text-foreground"> well-wishers</span>, and 
-              <span className="font-semibold text-foreground"> international supporters</span> who 
-              opened their hearts for our flood-affected brothers and sisters. 
-              <span className="font-semibold text-foreground"> Special thanks</span> to all Sri Lankans living in the UAE and 
+          {/* Partnership message */}
+          <div className="mb-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 p-6 shadow-soft">
+            <h3 className="font-display text-lg font-bold text-foreground sm:text-xl">
+              United 17 × Sri Lankans in the UAE
+            </h3>
+            <p className="mt-2 text-muted-foreground">
+              Together with our Sri Lankan community living in the UAE, we stand united in this mission of hope and solidarity.
+          
+              <span className="font-semibold">Special thanks</span> to all Sri Lankans living in the UAE and 
               other foreign nations who have generously contributed to this relief effort. 
-              <span className="font-semibold text-foreground">Your compassion knows no borders.</span>
+              Your compassion knows no borders.
             </p>
-            <div className="mt-6 pt-6 border-t border-border/50">
-              <p className="text-sm font-medium text-muted-foreground italic">
-                – With love and gratitude, U17 Flood Relief Team
-              </p>
-            </div>
-          </div>
+
+            
+            <p className="mt-4 text-sm font-medium text-muted-foreground italic">
+              – With love and gratitude, U17 Flood Relief Team
+            </p>
+  
         </div>
       </div>
     </section>
