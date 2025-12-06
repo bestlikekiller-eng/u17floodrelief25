@@ -61,7 +61,7 @@ const Index = () => {
 
  
       {/* Stats Section */}
-      <section className="container -mt-8 sm:-mt-12">
+      <section className="container -mt-8">
         <div className="animate-slide-up">
           <DonationStatsDisplay stats={stats} totalSpent={missionStats.totalSpent} />
         </div>
