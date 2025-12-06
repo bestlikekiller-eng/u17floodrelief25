@@ -58,7 +58,8 @@ const Index = () => {
           </div>
         </div>
       </section>
-<br> </br>
+
+      <section> </section>
       {/* Stats Section */}
       <section className="container -mt-8 sm:-mt-12">
         <div className="animate-slide-up">
