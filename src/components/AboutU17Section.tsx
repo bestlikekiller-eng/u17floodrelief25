@@ -2,7 +2,7 @@ import { Heart } from 'lucide-react';
 
 export function AboutU17Section() {
   return (
-    <section className="container py-8 sm:py-12">
+    <section className="container py-4 sm:py-6">
       <div className="rounded-2xl bg-gradient-to-br from-blue-500/10 via-emerald-500/5 to-purple-500/10 border border-emerald-500/20 p-8 sm:p-12 text-center">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-4 py-2">
           <Heart className="h-5 w-5 text-emerald-600" fill="currentColor" />
