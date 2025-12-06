@@ -78,6 +78,11 @@ const Index = () => {
       {/* Missions/Actions Section */}
       <MissionsSection missions={missions} loading={missionsLoading} stats={missionStats} />
 
+
+      {/* About U17 Section */}
+      <AboutU17Section />
+
+      
       {/* Donations List */}
       <section className="container py-8 sm:py-12">
         <div className="mb-6">
