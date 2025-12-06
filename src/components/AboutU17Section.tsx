@@ -19,7 +19,7 @@ export function AboutU17Section() {
           </p>
 
           <p>
-            Starting with <span className="font-semibold">educational support during the COVID-19 crisis</span>, our efforts expanded into broader <span className="italic">social initiatives, humanitarian assistance, youth engagement, and leadership development</span>. Today, <span className="font-semibold text-foreground">United 17</span> operates as a <span className="font-medium text-emerald-700">collective platform for young volunteers</span> across the country—<span className="font-semibold">regardless of ethnicity, religion, or background</span>—working with dedication to <span className="font-semibold text-foreground">create positive change, empower future leaders, and serve society</span> with <span className="italic font-medium text-rose-600">compassion and unity</span>.
+            Starting with <span className="font-semibold">educational support during the COVID-19 crisis</span>, our efforts expanded into broader <span className="italic">social initiatives, humanitarian assistance, youth engagement, and leadership development</span>. Today, <span className="font-semibold text-foreground">United 17</span> operates as a <span className="font-medium text-emerald-700">collective platform for young volunteers</span> across the country-<span className="font-semibold">regardless of ethnicity, religion, or background</span>-working with dedication to <span className="font-semibold text-foreground">create positive change, empower future leaders, and serve society</span> with <span className="italic font-medium text-rose-600">compassion and unity</span>.
           </p>
         </div>
       </div>
