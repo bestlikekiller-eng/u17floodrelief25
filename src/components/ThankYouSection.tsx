@@ -56,7 +56,7 @@ export function ThankYouSection() {
                 alt="United 17 Logo" 
                 className="h-16 w-16 rounded-xl object-cover shadow-lg sm:h-20 sm:w-20"
               />
-              <span className="font-display text-2xl font-bold text-primary sm:text-3xl">×</span>
+        
             </div>
             <img 
               src={uaeFlag} 
