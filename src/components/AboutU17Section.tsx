@@ -2,7 +2,7 @@ import { Heart } from 'lucide-react';
 
 export function AboutU17Section() {
   return (
-    <section className="container py-8 sm:py-12">
+    <section className="container py-4 sm:py-6">
       <div className="rounded-2xl bg-card shadow-soft overflow-hidden border border-border/50">
         <div className="bg-gradient-to-r from-primary/5 via-emerald-500/5 to-blue-500/5 p-6 sm:p-8">
           <div className="mb-6 flex items-center gap-3">
