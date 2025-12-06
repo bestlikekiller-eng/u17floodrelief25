@@ -17,7 +17,7 @@ export function StatCard({ title, value, subtitle, icon, variant = 'default', cl
         'stat-card group hover:scale-[1.02] hover:shadow-elevated',
         variant === 'primary' && 'bg-emerald-500 text-white',
         variant === 'success' && 'bg-success text-success-foreground',
-        variant === 'warning' && 'bg-amber-500 text-white',
+        variant === 'primary' && 'bg-primary text-primary-foreground',
         className
       )}
     >
