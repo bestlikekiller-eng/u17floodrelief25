@@ -60,8 +60,9 @@ const Index = () => {
       </section>
 
  
-      {/* Stats Section */}
-      <section className="container -mt-8">
+
+{/* Stats Section */}
+      <section className="container pt-8 sm:pt-12">
         <div className="animate-slide-up">
           <DonationStatsDisplay stats={stats} totalSpent={missionStats.totalSpent} />
         </div>
