@@ -1,12 +1,12 @@
 import unitedLogo from '@/assets/united17-logo.jpg';
 import sriLankaFlag from '@/assets/sri-lanka-flag.png';
 import uaeFlag from '@/assets/uae-flag.png';
-import { Heart, Sparkles } from 'lucide-react';
+import { Heart, Sparkles, Globe } from 'lucide-react';
 
 export function ThankYouSection() {
   return (
     <section className="container py-8 sm:py-12">
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-background to-emerald-500/10 p-8 sm:p-12">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-background to-emerald-500/10 p-8 sm:p-12 border border-primary/20 shadow-xl">
         {/* Background decorative elements */}
         <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-primary/5 blur-3xl" />
         <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-emerald-500/5 blur-3xl" />
@@ -48,43 +48,60 @@ export function ThankYouSection() {
             <img 
               src={sriLankaFlag} 
               alt="Sri Lanka Flag" 
-              className="h-12 w-auto rounded shadow-md sm:h-16"
+              className="h-12 w-auto rounded shadow-md sm:h-16 ring-2 ring-primary/10"
             />
             <div className="flex items-center gap-3">
               <img 
                 src={unitedLogo} 
                 alt="United 17 Logo" 
-                className="h-16 w-16 rounded-xl object-cover shadow-lg sm:h-20 sm:w-20"
+                className="h-16 w-16 rounded-xl object-cover shadow-lg sm:h-20 sm:w-20 ring-4 ring-primary/20"
               />
               <span className="font-display text-2xl font-bold text-primary sm:text-3xl">×</span>
             </div>
             <img 
               src={uaeFlag} 
               alt="UAE Flag" 
-              className="h-12 w-auto rounded shadow-md sm:h-16"
+              className="h-12 w-auto rounded shadow-md sm:h-16 ring-2 ring-primary/10"
             />
           </div>
 
-          {/* Partnership message */}
-          <div className="mb-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 p-6 shadow-soft">
-            <h3 className="font-display text-lg font-bold text-foreground sm:text-xl">
-              United 17 × Sri Lankans in the UAE
-            </h3>
-            <p className="mt-2 text-muted-foreground">
-              Together with our Sri Lankan community living in the UAE, we stand united in this mission of hope and solidarity.
-            </p>
-          </div>
+          {/* Combined Partnership & Special Thanks Message */}
+          <div className="space-y-4">
+            {/* Main Partnership Card */}
+            <div className="rounded-xl bg-card/80 backdrop-blur-sm border border-border/50 p-6 shadow-lg">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <Globe className="h-5 w-5 text-primary" />
+                <h3 className="font-display text-lg font-bold text-foreground sm:text-xl">
+                  United 17 × Sri Lankans in the UAE
+                </h3>
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
+                Together with our Sri Lankan community living in the UAE, we stand united in this mission of hope and solidarity.
+              </p>
+            </div>
 
-          {/* Special thanks */}
-          <div className="rounded-xl bg-gradient-to-r from-emerald-500/10 to-primary/10 p-6">
-            <p className="text-base text-foreground sm:text-lg">
-              <span className="font-semibold">Special thanks</span> to all Sri Lankans living in the UAE and 
-              other foreign nations who have generously contributed to this relief effort. 
-              Your compassion knows no borders.
-            </p>
-            <p className="mt-4 text-sm font-medium text-muted-foreground italic">
-              – With love and gratitude, U17 Flood Relief Team
-            </p>
+            {/* Special Thanks Card */}
+            <div className="rounded-xl bg-gradient-to-r from-emerald-50 to-blue-50 dark:from-emerald-950/20 dark:to-blue-950/20 border border-emerald-200 dark:border-emerald-800/30 p-6 shadow-md">
+              <div className="flex items-start gap-3 text-left sm:text-center sm:flex-col sm:items-center">
+                <div className="flex-shrink-0 mt-1 sm:mt-0">
+                  <div className="rounded-full bg-emerald-500/20 p-2">
+                    <Heart className="h-5 w-5 text-emerald-600 dark:text-emerald-400" fill="currentColor" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <p className="text-base text-foreground sm:text-lg leading-relaxed">
+                    <span className="font-semibold text-emerald-700 dark:text-emerald-400">Special thanks</span> to all Sri Lankans living in the UAE and 
+                    other foreign nations who have generously contributed to this relief effort. 
+                    <span className="font-semibold text-foreground"> Your compassion knows no borders.</span>
+                  </p>
+                  <div className="mt-4 pt-4 border-t border-emerald-200 dark:border-emerald-800/30">
+                    <p className="text-sm font-medium text-muted-foreground italic">
+                      – With love and gratitude, U17 Flood Relief Team
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
