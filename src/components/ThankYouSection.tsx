@@ -82,7 +82,7 @@ export function ThankYouSection() {
             <p className="mt-4 text-sm font-medium text-muted-foreground italic">
               – With love and gratitude, U17 Flood Relief Team
             </p>
-  
+  </div>
         </div>
       </div>
     </section>
