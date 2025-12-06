@@ -42,7 +42,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
 
 export function DonationCTA() {
   return (
-    <section className="container py-8 sm:py-12">
+    <section className="container py-4 sm:py-6">
       <Card className="overflow-hidden border-primary/20 bg-gradient-to-br from-primary/5 via-background to-success/5">
         <CardContent className="p-6 sm:p-8">
           {/* Emotional Quote Section */}
