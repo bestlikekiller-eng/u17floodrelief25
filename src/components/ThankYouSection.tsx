@@ -5,7 +5,7 @@ import { Heart, Sparkles } from 'lucide-react';
 
 export function ThankYouSection() {
   return (
-    <section className="container py-4 sm:py-6">
+    <section className="container py-6 sm:py-8">
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-background to-emerald-500/10 p-8 sm:p-12">
         {/* Background decorative elements */}
         <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-primary/5 blur-3xl" />
