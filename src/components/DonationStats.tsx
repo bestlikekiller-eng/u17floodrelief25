@@ -33,7 +33,7 @@ export function DonationStatsDisplay({ stats, totalSpent = 0 }: DonationStatsPro
           value={formatCurrency(totalSpent)}
           subtitle="On relief missions"
           icon={<TrendingDown className="h-6 w-6" />}
-          variant="spent"
+          variant="warning"
         />
         <StatCard
           title="Balance"
