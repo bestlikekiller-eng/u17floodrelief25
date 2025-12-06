@@ -127,7 +127,7 @@ export default function Admin() {
           <h3 className="font-display text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">Overall Summary (All Admins)</h3>
           <div className="grid gap-4 sm:grid-cols-3">
             <StatCard title="Total Donations" value={formatCurrency(globalStats.totalLKR)} subtitle="All admins combined" icon={<Wallet className="h-6 w-6" />} variant="primary" />
-            <StatCard title="Total Spent" value={formatCurrency(missionStats.totalSpent)} subtitle="On relief missions" icon={<TrendingDown className="h-6 w-6" />} variant="warning" />
+            <StatCard title="Total Spent" value={formatCurrency(missionStats.totalSpent)} subtitle="On relief missions" icon={<TrendingDown className="h-6 w-6" />} variant="spent" />
             <StatCard title="Balance" value={formatCurrency(balance)} subtitle="Available funds" icon={<Scale className="h-6 w-6" />} variant="success" />
           </div>
         </div>
