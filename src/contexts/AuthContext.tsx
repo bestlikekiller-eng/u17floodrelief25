@@ -5,6 +5,7 @@ interface AuthContextType {
   currentAdmin: string | null;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -19,14 +20,16 @@ const ADMIN_CREDENTIALS: Record<string, string> = {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentAdmin, setCurrentAdmin] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for existing session
+    // Check for existing session on mount
     const storedAdmin = sessionStorage.getItem('currentAdmin');
     if (storedAdmin && ADMIN_CREDENTIALS[storedAdmin]) {
       setIsLoggedIn(true);
       setCurrentAdmin(storedAdmin);
     }
+    setIsLoading(false);
   }, []);
 
   const login = async (username: string, password: string): Promise<boolean> => {
@@ -46,7 +49,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, currentAdmin, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, currentAdmin, login, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
