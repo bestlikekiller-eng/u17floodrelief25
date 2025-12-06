@@ -15,13 +15,13 @@ export function Header() {
           <img 
             src={unitedLogo} 
             alt="United 17 Logo" 
-            className="h-12 w-12 rounded-lg object-cover shadow-md"
+            className="h-10 w-10 rounded-lg object-cover shadow-md sm:h-12 sm:w-12"
           />
-          <div className="hidden sm:block">
-            <h1 className="font-display text-lg font-bold leading-tight text-foreground">
+          <div>
+            <h1 className="font-display text-base font-bold leading-tight text-foreground sm:text-lg">
               United 17
             </h1>
-            <p className="text-xs text-muted-foreground leading-none">
+            <p className="text-[10px] text-muted-foreground leading-none sm:text-xs">
               Flood Relief
             </p>
           </div>

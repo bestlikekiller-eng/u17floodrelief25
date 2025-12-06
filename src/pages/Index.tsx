@@ -5,7 +5,9 @@ import { DonationStatsDisplay } from '@/components/DonationStats';
 import { DonationCTA } from '@/components/DonationCTA';
 import { DonationsTable } from '@/components/DonationsTable';
 import { MissionsSection } from '@/components/MissionsSection';
+import { ThankYouSection } from '@/components/ThankYouSection';
 import { Heart, Users, Shield } from 'lucide-react';
+import unitedLogo from '@/assets/united17-logo.jpg';
 
 const Index = () => {
   const { donations, loading, stats } = useDonations();
@@ -19,6 +21,15 @@ const Index = () => {
       <section className="hero-gradient py-12 sm:py-16">
         <div className="container">
           <div className="mx-auto max-w-3xl text-center">
+            {/* Centered United 17 Logo */}
+            <div className="mb-6 flex justify-center">
+              <img 
+                src={unitedLogo} 
+                alt="United 17 Logo" 
+                className="h-24 w-24 rounded-2xl object-cover shadow-xl sm:h-32 sm:w-32 ring-4 ring-primary-foreground/20"
+              />
+            </div>
+            
             <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary-foreground/20 px-4 py-1.5">
               <Heart className="h-4 w-4 text-primary-foreground" />
               <span className="text-sm font-medium text-primary-foreground">
@@ -54,6 +65,9 @@ const Index = () => {
           <DonationStatsDisplay stats={stats} totalSpent={missionStats.totalSpent} />
         </div>
       </section>
+
+      {/* Thank You Section - After Contribution Cards */}
+      <ThankYouSection />
 
       {/* Donation CTA Section */}
       <DonationCTA />
