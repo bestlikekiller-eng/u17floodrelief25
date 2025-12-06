@@ -6,7 +6,6 @@ import { DonationCTA } from '@/components/DonationCTA';
 import { DonationsTable } from '@/components/DonationsTable';
 import { MissionsSection } from '@/components/MissionsSection';
 import { ThankYouSection } from '@/components/ThankYouSection';
-import { AboutU17Section } from '@/components/AboutU17Section';
 import { Heart, Users, Shield } from 'lucide-react';
 import unitedLogo from '@/assets/united17-logo.jpg';
 
@@ -79,8 +78,6 @@ const Index = () => {
       <MissionsSection missions={missions} loading={missionsLoading} stats={missionStats} />
 
 
-      {/* About U17 Section */}
-      <AboutU17Section />
 
       
       {/* Donations List */}
