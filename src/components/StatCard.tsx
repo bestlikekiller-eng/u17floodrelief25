@@ -16,8 +16,8 @@ export function StatCard({ title, value, subtitle, icon, variant = 'default', cl
       className={cn(
         'stat-card group hover:scale-[1.02] hover:shadow-elevated',
         variant === 'primary' && 'bg-emerald-500 text-white',
-        variant === 'success' && 'bg-success text-success-foreground',
-        variant === 'primary' && 'bg-primary text-primary-foreground',
+        variant === 'success' && 'bg-emerald-600 text-white',
+        variant === 'warning' && 'bg-amber-500 text-white',
         className
       )}
     >
@@ -49,8 +49,8 @@ export function StatCard({ title, value, subtitle, icon, variant = 'default', cl
           className={cn(
             'flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110',
             variant === 'default' && 'bg-primary/10 text-primary',
-            variant === 'primary' && 'bg-primary-foreground/20 text-primary-foreground',
-            variant === 'success' && 'bg-success-foreground/20 text-success-foreground',
+            variant === 'primary' && 'bg-white/20 text-white',
+            variant === 'success' && 'bg-white/20 text-white',
             variant === 'warning' && 'bg-white/20 text-white'
           )}
         >
