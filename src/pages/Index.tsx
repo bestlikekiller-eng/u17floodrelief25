@@ -72,11 +72,14 @@ const Index = () => {
       {/* Thank You Section - After Contribution Cards */}
       <ThankYouSection />
 
+            {/* Missions/Actions Section */}
+      <MissionsSection missions={missions} loading={missionsLoading} stats={missionStats} />
+
+      
       {/* Donation CTA Section */}
       <DonationCTA />
 
-      {/* Missions/Actions Section */}
-      <MissionsSection missions={missions} loading={missionsLoading} stats={missionStats} />
+
 
 
 {/* About U17 Section */}
