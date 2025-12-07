@@ -76,9 +76,6 @@ export function MissionsSection({ missions, loading, stats }: MissionsSectionPro
           </div>
         </CardHeader>
         <CardContent className="p-6">
-          <h3 className="font-display text-lg font-semibold text-foreground mb-4">
-            Our Active Relief Work
-          </h3>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {missions.map((mission) => (
