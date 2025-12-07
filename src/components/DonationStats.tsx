@@ -1,6 +1,6 @@
 import { DonationStats as Stats } from '@/types/donation';
 import { StatCard } from './StatCard';
-import { Wallet, MapPin, Globe, Landmark, Target, TrendingDown, BalanceIcon } from 'lucide-react';
+import { Wallet, MapPin, Globe, Landmark, Target, TrendingDown, Scale } from 'lucide-react';
 import { GoalProgress } from './GoalProgress';
 
 interface DonationStatsProps {
@@ -21,12 +21,8 @@ export function DonationStatsDisplay({ stats, totalSpent = 0, showSpentAndBalanc
 
   return (
     <div className="space-y-6">
-      {/* Target Goal Card - Centered */}
-      <div className="flex justify-center">
-        <div className="w-full sm:w-2/3 lg:w-1/2">
-          <GoalProgress currentAmount={stats.totalLKR} goalAmount={600000} />
-        </div>
-      </div>
+      {/* Target Goal Card - Full Width */}
+      <GoalProgress currentAmount={stats.totalLKR} goalAmount={600000} />
 
       {/* Main Stats Cards - Total Donations, Total Spent, Balance */}
       <div className="grid gap-4 sm:grid-cols-3">
@@ -48,7 +44,7 @@ export function DonationStatsDisplay({ stats, totalSpent = 0, showSpentAndBalanc
           title="Balance"
           value={formatCurrency(totalBalance)}
           subtitle="Available funds"
-          icon={<BalanceIcon className="h-6 w-6" />}
+          icon={<Scale className="h-6 w-6" />}
           variant="success"
         />
       </div>
