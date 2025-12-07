@@ -2,7 +2,7 @@ import { Heart, MessageCircle } from 'lucide-react';
 
 export function AboutU17Section() {
   return (
-    <section className="container py-4 sm:py-6">
+    <section className="container py-8 sm:py-12">
       <div className="rounded-2xl bg-gradient-to-br from-blue-500/10 via-emerald-500/5 to-purple-500/10 border border-emerald-500/20 p-6 sm:p-10 lg:p-12">
         <div className="mb-6 flex justify-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-4 py-2">
@@ -15,9 +15,9 @@ export function AboutU17Section() {
           Who we <span className="text-emerald-600">are</span>?
         </h2>
 
-        <div className="mx-auto max-w-4xl space-y-5 text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed text-center">
+        <div className="mx-auto max-w-4xl space-y-6 text-base sm:text-lg lg:text-xl text-muted-foreground leading-relaxed text-center">
           <p>
-            <span className="font-semibold text-foreground">United 17</span> is a <span className="font-semibold text-foreground">youth-led volunteer organisation</span> founded on <span className="font-semibold text-foreground">01 June 2021</span>, built by a group of young Sri Lankans who share a <span className="font-semibold text-emerald-700">unique identity</span> - we are the <span className="font-semibold text-foreground">All Ceylon 2017 O/L Students Federation</span>, consisting of students who were born in <span className="font-semibold">2001</span>, completed <span className="font-semibold">2017 O/L</span>, and later <span className="font-semibold">2020 A/L</span>.
+            <span className="font-semibold text-foreground">United 17</span> is a <span className="font-semibold text-foreground">youth-led volunteer organisation</span> founded on <span className="font-semibold text-foreground">01 June 2021</span>, built by a group of young Sri Lankans who share a <span className="font-semibold text-emerald-700">unique identity</span> — we are the <span className="font-semibold text-foreground">All Ceylon 2017 O/L Students Federation</span>, consisting of students who were born in <span className="font-semibold">2001</span>, completed <span className="font-semibold">2017 O/L</span>, and later <span className="font-semibold">2020 A/L</span>.
           </p>
 
           <p>
@@ -48,7 +48,7 @@ export function AboutU17Section() {
               >
                 <p className="font-semibold text-foreground text-sm sm:text-base">Ayash Muhammadh</p>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-1">+94 77 381 0094</p>
-                <div className="mt-3 flex items-center gap-2 text-emerald-600">
+                <div className="mt-3 flex items-center justify-center gap-2 text-emerald-600">
                   <MessageCircle className="h-4 w-4" />
                   <span className="text-xs sm:text-sm font-medium">Chat on WhatsApp</span>
                 </div>
@@ -63,7 +63,7 @@ export function AboutU17Section() {
               >
                 <p className="font-semibold text-foreground text-sm sm:text-base">Muhammadh Atheeq</p>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-1">+94 77 285 5928 <span className="text-xs">(WhatsApp only)</span></p>
-                <div className="mt-3 flex items-center gap-2 text-emerald-600">
+                <div className="mt-3 flex items-center justify-center gap-2 text-emerald-600">
                   <MessageCircle className="h-4 w-4" />
                   <span className="text-xs sm:text-sm font-medium">Chat on WhatsApp</span>
                 </div>
