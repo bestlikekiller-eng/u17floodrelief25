@@ -40,7 +40,7 @@ export function MissionsSection({ missions, loading, stats }: MissionsSectionPro
 
   if (loading) {
     return (
-      <section className="container py-8 sm:py-12">
+      <section className="container py-4 sm:py-6">
         <div className="flex items-center justify-center py-12">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
         </div>
