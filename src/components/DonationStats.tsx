@@ -1,6 +1,6 @@
 import { DonationStats as Stats } from '@/types/donation';
 import { StatCard } from './StatCard';
-import { Wallet, MapPin, Globe, Landmark } from 'lucide-react';
+import { Wallet, MapPin, Globe, Landmark, Target, TrendingDown, BalanceIcon } from 'lucide-react';
 import { GoalProgress } from './GoalProgress';
 
 interface DonationStatsProps {
@@ -17,10 +17,19 @@ function formatCurrency(amount: number, currency: string = 'LKR'): string {
 }
 
 export function DonationStatsDisplay({ stats, totalSpent = 0, showSpentAndBalance = false }: DonationStatsProps) {
+  const totalBalance = stats.totalLKR - totalSpent;
+
   return (
     <div className="space-y-6">
-      {/* Main Stats - Total Donations + Goal Progress */}
-      <div className="grid gap-4 sm:grid-cols-2">
+      {/* Target Goal Card - Centered */}
+      <div className="flex justify-center">
+        <div className="w-full sm:w-2/3 lg:w-1/2">
+          <GoalProgress currentAmount={stats.totalLKR} goalAmount={600000} />
+        </div>
+      </div>
+
+      {/* Main Stats Cards - Total Donations, Total Spent, Balance */}
+      <div className="grid gap-4 sm:grid-cols-3">
         <StatCard
           title="Total Donations"
           value={formatCurrency(stats.totalLKR)}
@@ -28,7 +37,20 @@ export function DonationStatsDisplay({ stats, totalSpent = 0, showSpentAndBalanc
           icon={<Wallet className="h-6 w-6" />}
           variant="primary"
         />
-        <GoalProgress currentAmount={stats.totalLKR} goalAmount={600000} />
+        <StatCard
+          title="Total Spent"
+          value={formatCurrency(totalSpent)}
+          subtitle="Relief operations"
+          icon={<TrendingDown className="h-6 w-6" />}
+          variant="warning"
+        />
+        <StatCard
+          title="Balance"
+          value={formatCurrency(totalBalance)}
+          subtitle="Available funds"
+          icon={<BalanceIcon className="h-6 w-6" />}
+          variant="success"
+        />
       </div>
 
       {/* Country Breakdown Title */}
