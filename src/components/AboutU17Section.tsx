@@ -53,20 +53,18 @@ export function AboutU17Section() {
                 href="https://wa.me/94773810094"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col rounded-lg border border-border bg-card p-3 shadow-sm transition-all hover:border-green-500 hover:shadow-md"
+                className="group rounded-lg border border-border bg-card p-4 shadow-sm transition-all hover:border-green-500 hover:shadow-md"
               >
-                <div className="flex flex-col gap-1">
-                  <span className="text-sm font-medium text-foreground group-hover:text-green-600">
-                    Ayash Muhammadh
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    +94 77 381 0094
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-xs font-medium text-green-600">
-                    <WhatsAppIcon className="h-4 w-4" />
-                    Chat on WhatsApp
-                  </span>
-                </div>
+                <p className="text-sm font-semibold text-foreground group-hover:text-green-600">
+                  Ayash Muhammadh
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  +94 77 381 0094
+                </p>
+                <p className="mt-2 flex items-center gap-1 text-xs font-medium text-green-600">
+                  <WhatsAppIcon className="h-4 w-4" />
+                  Chat on WhatsApp
+                </p>
               </a>
 
               {/* Atheeq Card */}
@@ -74,20 +72,18 @@ export function AboutU17Section() {
                 href="https://wa.me/94772855928"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col rounded-lg border border-border bg-card p-3 shadow-sm transition-all hover:border-green-500 hover:shadow-md"
+                className="group rounded-lg border border-border bg-card p-4 shadow-sm transition-all hover:border-green-500 hover:shadow-md"
               >
-                <div className="flex flex-col gap-1">
-                  <span className="text-sm font-medium text-foreground group-hover:text-green-600">
-                    Muhammadh Atheeq
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    +94 77 285 5928 <span className="text-green-600">(WhatsApp only)</span>
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-xs font-medium text-green-600">
-                    <WhatsAppIcon className="h-4 w-4" />
-                    Chat on WhatsApp
-                  </span>
-                </div>
+                <p className="text-sm font-semibold text-foreground group-hover:text-green-600">
+                  Muhammadh Atheeq
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  +94 77 285 5928 <span className="text-green-600">(WhatsApp only)</span>
+                </p>
+                <p className="mt-2 flex items-center gap-1 text-xs font-medium text-green-600">
+                  <WhatsAppIcon className="h-4 w-4" />
+                  Chat on WhatsApp
+                </p>
               </a>
             </div>
           </div>
