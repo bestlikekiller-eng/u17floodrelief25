@@ -20,6 +20,7 @@ import {
   ImageIcon,
   X,
   ZoomIn,
+  Heart,
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { useState } from 'react';
@@ -40,7 +41,7 @@ export function MissionsSection({ missions, loading, stats }: MissionsSectionPro
 
   if (loading) {
     return (
-      <section className="container py-4 sm:py-6">
+      <section className="container py-8 sm:py-12">
         <div className="flex items-center justify-center py-12">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
         </div>
@@ -58,12 +59,16 @@ export function MissionsSection({ missions, loading, stats }: MissionsSectionPro
         <CardHeader className="bg-gradient-to-r from-primary/10 to-primary/5">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
-                Total Actions / Missions Completed
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1 flex items-center gap-2">
+                <Heart className="h-4 w-4" />
+                Relief Operations Completed
               </p>
               <CardTitle className="font-display text-3xl font-bold text-primary">
-                {stats.totalMissions}
+                {stats.totalMissions} Missions
               </CardTitle>
+              <p className="text-sm text-muted-foreground mt-1">
+                Making a real difference on the ground
+              </p>
             </div>
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/20">
               <Target className="h-8 w-8 text-primary" />
@@ -72,7 +77,7 @@ export function MissionsSection({ missions, loading, stats }: MissionsSectionPro
         </CardHeader>
         <CardContent className="p-6">
           <h3 className="font-display text-lg font-semibold text-foreground mb-4">
-            Relief Actions Breakdown
+            Our Active Relief Work
           </h3>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -94,6 +99,7 @@ export function MissionsSection({ missions, loading, stats }: MissionsSectionPro
             <MissionDetails
               mission={selectedMission}
               onImageClick={setZoomedImage}
+              onClose={() => setSelectedMission(null)}
             />
           )}
         </DialogContent>
@@ -181,15 +187,25 @@ function MissionCard({ mission, onViewDetails }: MissionCardProps) {
 interface MissionDetailsProps {
   mission: Mission;
   onImageClick: (url: string) => void;
+  onClose: () => void;
 }
 
-function MissionDetails({ mission, onImageClick }: MissionDetailsProps) {
+function MissionDetails({ mission, onImageClick, onClose }: MissionDetailsProps) {
   const receiptPhotos = mission.photos?.filter((p) => p.photo_type === 'receipt') || [];
   const itemPhotos = mission.photos?.filter((p) => p.photo_type === 'item') || [];
   const proofPhotos = mission.photos?.filter((p) => p.photo_type === 'proof') || [];
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
+      {/* Close button - Always visible with strong contrast */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 z-50 bg-black/80 hover:bg-black rounded-full p-2 transition-colors shadow-xl border-2 border-white"
+        aria-label="Close"
+      >
+        <X className="h-6 w-6 text-white" />
+      </button>
+
       {/* Featured Image Header */}
       {mission.featured_image_url && (
         <div className="w-full aspect-video overflow-hidden relative">
