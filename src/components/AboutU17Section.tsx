@@ -5,12 +5,14 @@ export function AboutU17Section() {
   return (
     <section className="container py-8 sm:py-12">
       <div className="rounded-2xl bg-gradient-to-br from-blue-500/10 via-emerald-500/5 to-purple-500/10 border border-emerald-500/20 p-8 sm:p-12">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-4 py-2">
-          <Heart className="h-5 w-5 text-emerald-600" fill="currentColor" />
-          <span className="text-sm font-semibold text-emerald-700">Our Story & Mission</span>
+        <div className="mb-6 flex justify-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-4 py-2">
+            <Heart className="h-5 w-5 text-emerald-600" fill="currentColor" />
+            <span className="text-sm font-semibold text-emerald-700">Our Story & Mission</span>
+          </div>
         </div>
 
-        <h2 className="font-display text-2xl sm:text-3xl font-bold text-foreground mb-6">
+        <h2 className="font-display text-2xl sm:text-3xl font-bold text-foreground mb-6 text-center">
           Who is <span className="text-emerald-600">United 17</span>?
         </h2>
 
@@ -32,15 +34,42 @@ export function AboutU17Section() {
           </p>
 
           <div className="rounded-lg bg-gradient-to-r from-emerald-500/10 to-blue-500/10 p-6 mt-6 border border-emerald-500/20">
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-muted-foreground mb-6">
               If you are also from the <span className="font-semibold text-foreground">2017 O/L batch</span> <span className="text-xs text-muted-foreground">(2001-born)</span> and wish to be part of a <span className="italic font-medium text-emerald-700">youth movement that uplifts communities and creates real change</span>, we warmly invite you to join us.
             </p>
-            <Button asChild className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700">
-              <a href="https://wa.me/94772855928" target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="mr-2 h-5 w-5" />
-                Contact Atheeq on WhatsApp
+
+            {/* Contact Cards */}
+            <div className="grid gap-3 sm:grid-cols-2">
+              {/* Ayash Card */}
+              <a
+                href="https://wa.me/94773810094"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border-2 border-emerald-500 bg-white dark:bg-muted/50 p-4 hover:shadow-md transition-shadow"
+              >
+                <p className="font-semibold text-foreground">Ayash Muhammadh</p>
+                <p className="text-sm text-muted-foreground">+94 77 381 0094</p>
+                <div className="mt-2 flex items-center gap-2 text-emerald-600">
+                  <MessageCircle className="h-4 w-4" />
+                  <span className="text-xs font-medium">Chat on WhatsApp</span>
+                </div>
               </a>
-            </Button>
+
+              {/* Atheeq Card */}
+              <a
+                href="https://wa.me/94772855928"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border-2 border-emerald-500 bg-white dark:bg-muted/50 p-4 hover:shadow-md transition-shadow"
+              >
+                <p className="font-semibold text-foreground">Muhammadh Atheeq</p>
+                <p className="text-sm text-muted-foreground">+94 77 285 5928 <span className="text-xs">(WhatsApp only)</span></p>
+                <div className="mt-2 flex items-center gap-2 text-emerald-600">
+                  <MessageCircle className="h-4 w-4" />
+                  <span className="text-xs font-medium">Chat on WhatsApp</span>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
