@@ -13,7 +13,7 @@ export function AboutU17Section() {
         </div>
 
         <h2 className="font-display text-2xl sm:text-3xl font-bold text-foreground mb-6 text-center">
-          Who is <span className="text-emerald-600">United 17</span>?
+          Who we <span className="text-emerald-600">are</span>?
         </h2>
 
         <div className="mx-auto max-w-4xl space-y-4 text-base text-muted-foreground leading-relaxed">
