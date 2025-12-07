@@ -182,15 +182,7 @@ export function DonationCTA() {
                   <Facebook className="h-5 w-5" />
                   Facebook
                 </a>
-                <a
-                  href="https://whatsapp.com/channel/0029Vb7PQD4Jpe8dA0fLjz1m"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg bg-[#25D366] px-4 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
-                >
-                  <WhatsAppIcon className="h-5 w-5" />
-                  WhatsApp Channel
-                </a>
+
                 <a
                   href="mailto:united17.sl@gmail.com"
                   className="inline-flex items-center gap-2 rounded-lg bg-red-500 px-4 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
