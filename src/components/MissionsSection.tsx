@@ -59,15 +59,13 @@ export function MissionsSection({ missions, loading, stats }: MissionsSectionPro
         <CardHeader className="bg-gradient-to-r from-primary/10 to-primary/5">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1 flex items-center gap-2">
-                <Heart className="h-4 w-4" />
-                Relief Operations Completed
-              </p>
+
               <CardTitle className="font-display text-3xl font-bold text-primary">
                  Missions
               </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
-                Making a real difference on the ground
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1 flex items-center gap-2">
+                <Heart className="h-4 w-4" />
+                Relief Operations Completed
               </p>
             </div>
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/20">
