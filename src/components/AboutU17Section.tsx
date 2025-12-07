@@ -26,11 +26,11 @@ export function AboutU17Section() {
 
         <div className="mx-auto max-w-4xl space-y-5 text-sm sm:text-base text-muted-foreground leading-relaxed text-center">
           <p>
-            <span className="font-semibold text-foreground">United 17</span> is a <span className="font-semibold text-foreground">youth-led volunteer organisation</span> founded on <span className="font-semibold text-foreground">01 June 2021</span>, built by a group of young Sri Lankans who share a <span className="font-semibold text-emerald-700">unique identity</span> — we are the <span className="font-semibold text-foreground">All Ceylon 2017 O/L Students Federation</span>, consisting of students who were born in <span className="font-semibold">2001</span>, completed <span className="font-semibold">2017 O/L</span>, and later <span className="font-semibold">2020 A/L</span>.
+            <span className="font-semibold text-foreground">United 17</span> is a <span className="font-semibold text-foreground">youth-led volunteer organisation</span> founded on <span className="font-semibold text-foreground">01 June 2021</span>, built by a group of young Sri Lankans who share a <span className="font-semibold text-emerald-700">unique identity</span> - we are the <span className="font-semibold text-foreground">All Ceylon 2017 O/L Students Federation</span>, consisting of students who were born in <span className="font-semibold">2001</span>, completed <span className="font-semibold">2017 O/L</span>, and later <span className="font-semibold">2020 A/L</span>.
           </p>
 
           <p>
-            This shared journey is what makes <span className="font-semibold text-foreground">United 17</span> truly unique. 💠 <span className="font-semibold text-foreground">Every volunteer belongs to the same batch and age group</span>. This creates a <span className="font-semibold text-emerald-700">powerful bond, unity of purpose, and a strong sense of responsibility</span> toward our society.
+            This shared journey is what makes <span className="font-semibold text-foreground">United 17</span> truly unique. <span className="font-semibold text-foreground">Every volunteer belongs to the same batch and age group</span>. This creates a <span className="font-semibold text-emerald-700">powerful bond, unity of purpose, and a strong sense of responsibility</span> toward our society.
           </p>
 
           <p>
