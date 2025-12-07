@@ -15,8 +15,8 @@ export function GoalProgress({ currentAmount, goalAmount = 600000 }: GoalProgres
   const remaining = Math.max(goalAmount - currentAmount, 0);
 
   return (
-    <div className="rounded-xl bg-gradient-to-r from-primary/5 via-background to-amber-500/5 border border-primary/20 p-4 sm:p-6">
-      <div className="flex items-center justify-between mb-3">
+    <div className="w-full rounded-xl bg-gradient-to-r from-primary/5 via-background to-amber-500/5 border border-primary/20 p-4 sm:p-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 gap-4">
         <div className="flex items-center gap-2">
           <div className="rounded-full bg-primary/10 p-2">
             <Target className="h-5 w-5 text-primary" />
