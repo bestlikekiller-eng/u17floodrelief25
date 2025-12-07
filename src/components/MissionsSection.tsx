@@ -64,7 +64,7 @@ export function MissionsSection({ missions, loading, stats }: MissionsSectionPro
                  Missions
               </CardTitle>
               <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1 flex items-center gap-2">
-                <Heart className="h-4 w-4" />
+                
                 Relief Operations Completed
               </p>
             </div>
