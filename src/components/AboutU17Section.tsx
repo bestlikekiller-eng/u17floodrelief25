@@ -55,16 +55,18 @@ export function AboutU17Section() {
                 rel="noopener noreferrer"
                 className="group flex flex-col rounded-lg border border-border bg-card p-3 shadow-sm transition-all hover:border-green-500 hover:shadow-md"
               >
-                <span className="text-sm font-medium text-foreground group-hover:text-green-600">
-                  Ayash Muhammadh
-                </span>
-                <span className="mt-1 text-xs text-muted-foreground">
-                  +94 77 381 0094
-                </span>
-                <span className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-green-600">
-                  <WhatsAppIcon className="h-4 w-4" />
-                  Chat on WhatsApp
-                </span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-sm font-medium text-foreground group-hover:text-green-600">
+                    Ayash Muhammadh
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    +94 77 381 0094
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-xs font-medium text-green-600">
+                    <WhatsAppIcon className="h-4 w-4" />
+                    Chat on WhatsApp
+                  </span>
+                </div>
               </a>
 
               {/* Atheeq Card */}
@@ -74,16 +76,18 @@ export function AboutU17Section() {
                 rel="noopener noreferrer"
                 className="group flex flex-col rounded-lg border border-border bg-card p-3 shadow-sm transition-all hover:border-green-500 hover:shadow-md"
               >
-                <span className="text-sm font-medium text-foreground group-hover:text-green-600">
-                  Muhammadh Atheeq
-                </span>
-                <span className="mt-1 text-xs text-muted-foreground">
-                  +94 77 285 5928 <span className="text-green-600">(WhatsApp only)</span>
-                </span>
-                <span className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-green-600">
-                  <WhatsAppIcon className="h-4 w-4" />
-                  Chat on WhatsApp
-                </span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-sm font-medium text-foreground group-hover:text-green-600">
+                    Muhammadh Atheeq
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    +94 77 285 5928 <span className="text-green-600">(WhatsApp only)</span>
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-xs font-medium text-green-600">
+                    <WhatsAppIcon className="h-4 w-4" />
+                    Chat on WhatsApp
+                  </span>
+                </div>
               </a>
             </div>
           </div>
