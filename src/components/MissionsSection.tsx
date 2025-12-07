@@ -41,7 +41,7 @@ export function MissionsSection({ missions, loading, stats }: MissionsSectionPro
 
   if (loading) {
     return (
-      <section className="container py-8 sm:py-12">
+      <section className="container py-4 sm:py-6">
         <div className="flex items-center justify-center py-12">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
         </div>
@@ -54,7 +54,7 @@ export function MissionsSection({ missions, loading, stats }: MissionsSectionPro
   }
 
   return (
-    <section className="container py-8 sm:py-12">
+    <section className="container py-4 sm:py-6">
       <Card className="overflow-hidden">
         <CardHeader className="bg-gradient-to-r from-primary/10 to-primary/5">
           <div className="flex items-center justify-between">
@@ -64,7 +64,7 @@ export function MissionsSection({ missions, loading, stats }: MissionsSectionPro
                 Relief Operations Completed
               </p>
               <CardTitle className="font-display text-3xl font-bold text-primary">
-                {stats.totalMissions} Missions
+                 Missions
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
                 Making a real difference on the ground
