@@ -2,7 +2,7 @@ import { Heart, MessageCircle } from 'lucide-react';
 
 export function AboutU17Section() {
   return (
-    <section className="container py-8 sm:py-12">
+    <section className="container py-4 sm:py-6">
       <div className="rounded-2xl bg-gradient-to-br from-blue-500/10 via-emerald-500/5 to-purple-500/10 border border-emerald-500/20 p-6 sm:p-10 lg:p-12">
         <div className="mb-6 flex justify-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-4 py-2">
