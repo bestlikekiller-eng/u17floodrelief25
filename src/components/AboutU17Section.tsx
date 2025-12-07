@@ -15,7 +15,7 @@ export function AboutU17Section() {
           Who we <span className="text-emerald-600">are</span>?
         </h2>
 
-        <div className="mx-auto max-w-4xl space-y-5 text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed">
+        <div className="mx-auto max-w-4xl space-y-5 text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed text-center">
           <p>
             <span className="font-semibold text-foreground">United 17</span> is a <span className="font-semibold text-foreground">youth-led volunteer organisation</span> founded on <span className="font-semibold text-foreground">01 June 2021</span>, built by a group of young Sri Lankans who share a <span className="font-semibold text-emerald-700">unique identity</span> — we are the <span className="font-semibold text-foreground">All Ceylon 2017 O/L Students Federation</span>, consisting of students who were born in <span className="font-semibold">2001</span>, completed <span className="font-semibold">2017 O/L</span>, and later <span className="font-semibold">2020 A/L</span>.
           </p>
