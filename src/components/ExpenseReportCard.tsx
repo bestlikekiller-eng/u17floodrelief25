@@ -50,8 +50,8 @@ export function ExpenseReportCard() {
 
             {/* Missions Details */}
             <div className="flex flex-wrap gap-2 text-xs text-muted-foreground mb-4">
-              <span className="bg-muted px-2 py-1 rounded-full">🏥 Mission 1: Anuradhapura</span>
-              <span className="bg-muted px-2 py-1 rounded-full">🏘️ Mission 2: Puttalam (3 Villages)</span>
+              <span className="bg-muted px-2 py-1 rounded-full">Mission 1: Anuradhapura</span>
+              <span className="bg-muted px-2 py-1 rounded-full">Mission 2: Puttalam (3 Villages)</span>
             </div>
           </div>
 

@@ -1,7 +1,7 @@
 import unitedLogo from '@/assets/united17-logo.jpg';
 import sriLankaFlag from '@/assets/sri-lanka-flag.png';
 import uaeFlag from '@/assets/uae-flag.png';
-import { Heart, Sparkles, CheckCircle, Users, MapPin } from 'lucide-react';
+import { Heart, CheckCircle, Users, MapPin } from 'lucide-react';
 
 export function ThankYouSection() {
   return (
@@ -11,17 +11,6 @@ export function ThankYouSection() {
         <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-emerald-500/10 blur-3xl" />
         <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-64 w-64 rounded-full bg-amber-500/5 blur-3xl" />
-        
-        {/* Floating hearts decoration */}
-        <div className="absolute top-4 left-8 animate-pulse">
-          <Heart className="h-6 w-6 text-rose-400/30" fill="currentColor" />
-        </div>
-        <div className="absolute top-12 right-12 animate-pulse" style={{ animationDelay: '0.5s' }}>
-          <CheckCircle className="h-5 w-5 text-emerald-400/40" />
-        </div>
-        <div className="absolute bottom-8 left-1/4 animate-pulse" style={{ animationDelay: '1s' }}>
-          <Sparkles className="h-5 w-5 text-amber-400/30" />
-        </div>
 
         <div className="relative z-10 text-center">
           {/* Success Message */}
@@ -31,14 +20,14 @@ export function ThankYouSection() {
               <span className="text-sm font-semibold text-emerald-700">Mission Accomplished</span>
             </div>
             <h2 className="font-display text-2xl font-bold text-foreground sm:text-3xl lg:text-4xl">
-              Shukran & JazakAllah Khair!
+              Thank You!
             </h2>
             <p className="mx-auto mt-4 max-w-3xl text-base text-muted-foreground sm:text-lg leading-relaxed">
               From the depths of our hearts, we thank every single donor who contributed to this noble cause – 
               our beloved <span className="font-semibold text-foreground">United 17 members</span>, 
               dear <span className="font-semibold text-foreground">friends and family</span>, 
-              <span className="font-semibold text-foreground"> well-wishers</span>, and 
-              <span className="font-semibold text-foreground"> international supporters</span>. 
+              <span className="font-semibold"> well-wishers</span>, and 
+              <span className="font-semibold"> international supporters</span>. 
               Together, we made a real difference in the lives of 83 flood-affected families!
             </p>
           </div>
@@ -98,10 +87,9 @@ export function ThankYouSection() {
             </p>
           </div>
 
-          {/* Final Prayer */}
+          {/* Final Message */}
           <p className="text-sm text-muted-foreground">
-            May Allah (SWT) bless you all abundantly for your kindness and generosity. 
-            <span className="font-semibold text-foreground"> Ameen.</span>
+            Thank you all for your kindness and generosity.
           </p>
         </div>
       </div>
