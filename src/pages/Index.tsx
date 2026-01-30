@@ -1,5 +1,6 @@
 import { useDonations } from '@/hooks/useDonations';
 import { useMissions } from '@/hooks/useMissions';
+import { useAdditionalCharges } from '@/hooks/useAdditionalCharges';
 import { Header } from '@/components/Header';
 import { FinalStatsDisplay } from '@/components/FinalStatsDisplay';
 import { CollectedAmountCard } from '@/components/CollectedAmountCard';
@@ -15,6 +16,7 @@ import unitedLogo from '@/assets/united17-logo.jpg';
 const Index = () => {
   const { donations, loading, stats } = useDonations();
   const { missions, loading: missionsLoading, stats: missionStats } = useMissions();
+  const { totalCharges } = useAdditionalCharges();
 
   return (
     <div className="min-h-screen bg-background">
@@ -70,7 +72,7 @@ const Index = () => {
       {/* Final Stats Section - Spent and Balance Only */}
       <section className="container pt-6 sm:pt-8">
         <div className="animate-slide-up">
-          <FinalStatsDisplay stats={stats} totalSpent={missionStats.totalSpent} />
+          <FinalStatsDisplay stats={stats} totalSpent={missionStats.totalSpent} additionalCharges={totalCharges} />
         </div>
       </section>
 

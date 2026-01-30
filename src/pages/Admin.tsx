@@ -3,10 +3,12 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDonations } from '@/hooks/useDonations';
 import { useMissions, Mission, MissionFormData } from '@/hooks/useMissions';
+import { useAdditionalCharges } from '@/hooks/useAdditionalCharges';
 import { Header } from '@/components/Header';
 import { DonationsTable } from '@/components/DonationsTable';
 import { DonationForm } from '@/components/DonationForm';
 import { MissionForm } from '@/components/MissionForm';
+import { AdditionalChargesForm } from '@/components/AdditionalChargesForm';
 import { DonationFilters, FilterOptions, applyFilters } from '@/components/DonationFilters';
 import { Button } from '@/components/ui/button';
 import { StatCard } from '@/components/StatCard';
@@ -23,7 +25,7 @@ import {
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Donation, DonationFormData, DonationStats } from '@/types/donation';
 import { exportDonationsPDF, exportPersonWisePDF } from '@/utils/pdfExport';
-import { Plus, Download, FileText, ChevronDown, Target, Wallet, TrendingDown, Scale, MapPin, Landmark, Globe, Users, Calendar, Trash2, Eye, Edit } from 'lucide-react';
+import { Plus, Download, FileText, ChevronDown, Target, Wallet, TrendingDown, Scale, MapPin, Landmark, Globe, Users, Calendar, Trash2, Eye, Edit, Receipt } from 'lucide-react';
 import { format } from 'date-fns';
 
 function formatCurrency(amount: number, currency: string = 'LKR'): string {
@@ -35,13 +37,16 @@ export default function Admin() {
   const { isLoggedIn, currentAdmin } = useAuth();
   const { donations: allDonations, loading, addDonation, updateDonation, deleteDonation } = useDonations();
   const { missions, stats: missionStats, addMission, updateMission, deleteMission } = useMissions();
+  const { charges, totalCharges, addCharge, deleteCharge } = useAdditionalCharges();
 
   const [showForm, setShowForm] = useState(false);
   const [showMissionForm, setShowMissionForm] = useState(false);
+  const [showChargesForm, setShowChargesForm] = useState(false);
   const [editingDonation, setEditingDonation] = useState<Donation | null>(null);
   const [editingMission, setEditingMission] = useState<Mission | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteMissionId, setDeleteMissionId] = useState<string | null>(null);
+  const [deleteChargeId, setDeleteChargeId] = useState<string | null>(null);
   const [filters, setFilters] = useState<FilterOptions>({});
   const [showAllDonations, setShowAllDonations] = useState(false);
   const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
@@ -70,7 +75,8 @@ export default function Admin() {
     return { totalLKR, sriLankaTotal, uaeTotal: { aed: uaeAED, lkr: uaeLKR }, germanyTotal: { eur: germanyEUR, lkr: germanyLKR }, pakistanTotal: { pkr: pakistanPKR, lkr: pakistanLKR }, otherCountries: Object.entries(otherMap).map(([key, value]) => ({ country: key.split('-')[0], ...value })) };
   }, [myDonations]);
 
-  const balance = globalStats.totalLKR - missionStats.totalSpent;
+  const totalSpentWithCharges = missionStats.totalSpent + totalCharges;
+  const balance = globalStats.totalLKR - totalSpentWithCharges;
 
   if (!isLoggedIn) return <Navigate to="/login" replace />;
 
@@ -78,6 +84,7 @@ export default function Admin() {
   const handleEdit = (donation: Donation) => { setEditingDonation(donation); setShowForm(true); };
   const handleDelete = async () => { if (deleteId) { await deleteDonation(deleteId); setDeleteId(null); } };
   const handleDeleteMission = async () => { if (deleteMissionId) { await deleteMission(deleteMissionId); setDeleteMissionId(null); } };
+  const handleDeleteCharge = async () => { if (deleteChargeId) { await deleteCharge(deleteChargeId); setDeleteChargeId(null); } };
   const handleExportAll = () => exportDonationsPDF(filteredDonations, myStats, { title: 'All Donations Report', dateRange: { start: filters.startDate, end: filters.endDate } });
   const handleExportPerson = (person: 'Ayash' | 'Atheeq' | 'Inas') => exportPersonWisePDF(allDonations, person);
   
@@ -110,6 +117,7 @@ export default function Admin() {
           <div className="flex flex-wrap gap-2">
             <Button onClick={() => setShowForm(true)}><Plus className="mr-2 h-4 w-4" />Add Donation</Button>
             {currentAdmin === 'Ayash' && <Button variant="secondary" onClick={() => setShowMissionForm(true)}><Target className="mr-2 h-4 w-4" />Add Mission</Button>}
+            {currentAdmin === 'Ayash' && <Button variant="outline" onClick={() => setShowChargesForm(true)}><Receipt className="mr-2 h-4 w-4" />Add Charge</Button>}
             <DropdownMenu>
               <DropdownMenuTrigger asChild><Button variant="outline"><Download className="mr-2 h-4 w-4" />Export PDF<ChevronDown className="ml-2 h-4 w-4" /></Button></DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -127,7 +135,7 @@ export default function Admin() {
           <h3 className="font-display text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">Overall Summary (All Admins)</h3>
           <div className="grid gap-4 sm:grid-cols-3">
             <StatCard title="Total Donations" value={formatCurrency(globalStats.totalLKR)} subtitle="All admins combined" icon={<Wallet className="h-6 w-6" />} variant="primary" />
-            <StatCard title="Total Spent" value={formatCurrency(missionStats.totalSpent)} subtitle="On relief missions" icon={<TrendingDown className="h-6 w-6" />} variant="warning" />
+            <StatCard title="Total Spent" value={formatCurrency(totalSpentWithCharges)} subtitle={`Missions: ${formatCurrency(missionStats.totalSpent)} + Charges: ${formatCurrency(totalCharges)}`} icon={<TrendingDown className="h-6 w-6" />} variant="warning" />
             <StatCard title="Balance" value={formatCurrency(balance)} subtitle="Available funds" icon={<Scale className="h-6 w-6" />} variant="success" />
           </div>
         </div>
@@ -175,6 +183,35 @@ export default function Admin() {
           </div>
         )}
 
+        {/* Additional Charges Section - Only for Ayash */}
+        {currentAdmin === 'Ayash' && charges.length > 0 && (
+          <div className="mb-6">
+            <Card>
+              <CardHeader><CardTitle className="font-display text-lg">Additional Charges ({charges.length})</CardTitle></CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {charges.map((charge) => (
+                    <div key={charge.id} className="flex items-center justify-between rounded-lg border border-border p-3 hover:bg-muted/50 transition-colors">
+                      <div>
+                        <p className="font-medium text-foreground">{charge.description}</p>
+                        <p className="text-sm text-muted-foreground">{format(new Date(charge.charge_date), 'MMM dd, yyyy')}</p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Badge variant="secondary" className="font-semibold">{formatCurrency(charge.amount)}</Badge>
+                        <Button variant="ghost" size="icon" onClick={() => setDeleteChargeId(charge.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="pt-2 border-t mt-2 flex justify-between items-center">
+                    <span className="text-sm font-medium text-muted-foreground">Total Additional Charges</span>
+                    <Badge className="font-semibold">{formatCurrency(totalCharges)}</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
         <div className="mb-6"><DonationFilters filters={filters} onFilterChange={setFilters} currencies={currencies} /></div>
 
         <div className="mb-6">
@@ -191,13 +228,20 @@ export default function Admin() {
 
       <DonationForm open={showForm} onClose={() => { setShowForm(false); setEditingDonation(null); }} onSubmit={handleSubmit} editingDonation={editingDonation} defaultCollector={currentAdmin || undefined} />
       {currentAdmin === 'Ayash' && (
-        <MissionForm 
-          open={showMissionForm} 
-          onClose={handleCloseMissionForm} 
-          onSubmit={handleMissionSubmit} 
-          createdBy={currentAdmin} 
-          editingMission={editingMission}
-        />
+        <>
+          <MissionForm 
+            open={showMissionForm} 
+            onClose={handleCloseMissionForm} 
+            onSubmit={handleMissionSubmit} 
+            createdBy={currentAdmin} 
+            editingMission={editingMission}
+          />
+          <AdditionalChargesForm
+            open={showChargesForm}
+            onClose={() => setShowChargesForm(false)}
+            onSubmit={addCharge}
+          />
+        </>
       )}
 
       <Dialog open={!!selectedMission} onOpenChange={() => setSelectedMission(null)}>
@@ -241,6 +285,13 @@ export default function Admin() {
         <AlertDialogContent>
           <AlertDialogHeader><AlertDialogTitle>Delete Mission</AlertDialogTitle><AlertDialogDescription>Are you sure? This cannot be undone.</AlertDialogDescription></AlertDialogHeader>
           <AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={handleDeleteMission} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">Delete</AlertDialogAction></AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={!!deleteChargeId} onOpenChange={() => setDeleteChargeId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader><AlertDialogTitle>Delete Charge</AlertDialogTitle><AlertDialogDescription>Are you sure? This cannot be undone.</AlertDialogDescription></AlertDialogHeader>
+          <AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={handleDeleteCharge} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">Delete</AlertDialogAction></AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     </div>

@@ -5,14 +5,17 @@ import { DonationStats } from '@/types/donation';
 interface FinalStatsDisplayProps {
   stats: DonationStats;
   totalSpent: number;
+  additionalCharges?: number;
 }
 
 function formatCurrency(amount: number): string {
   return `Rs. ${amount.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 }
 
-export function FinalStatsDisplay({ stats, totalSpent }: FinalStatsDisplayProps) {
-  const balance = stats.totalLKR - totalSpent;
+export function FinalStatsDisplay({ stats, totalSpent, additionalCharges = 0 }: FinalStatsDisplayProps) {
+  // Include additional charges in balance calculation (hidden from display)
+  const totalDeductions = totalSpent + additionalCharges;
+  const balance = stats.totalLKR - totalDeductions;
 
   return (
     <div className="grid gap-4 sm:grid-cols-2">

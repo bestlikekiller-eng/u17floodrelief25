@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      additional_charges: {
+        Row: {
+          amount: number
+          charge_date: string
+          created_at: string
+          created_by: string
+          description: string
+          id: string
+        }
+        Insert: {
+          amount?: number
+          charge_date?: string
+          created_at?: string
+          created_by?: string
+          description: string
+          id?: string
+        }
+        Update: {
+          amount?: number
+          charge_date?: string
+          created_at?: string
+          created_by?: string
+          description?: string
+          id?: string
+        }
+        Relationships: []
+      }
       admins: {
         Row: {
           created_at: string
