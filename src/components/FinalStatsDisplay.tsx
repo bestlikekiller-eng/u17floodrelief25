@@ -13,15 +13,15 @@ function formatCurrency(amount: number): string {
 }
 
 export function FinalStatsDisplay({ stats, totalSpent, additionalCharges = 0 }: FinalStatsDisplayProps) {
-  // Include additional charges in balance calculation (hidden from display)
-  const totalDeductions = totalSpent + additionalCharges;
-  const balance = stats.totalLKR - totalDeductions;
+  // Total spent now includes mission expenses + additional charges
+  const totalSpentWithCharges = totalSpent + additionalCharges;
+  const balance = stats.totalLKR - totalSpentWithCharges;
 
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       <StatCard
         title="Total Spent"
-        value={formatCurrency(totalSpent)}
+        value={formatCurrency(totalSpentWithCharges)}
         subtitle="For relief operations"
         icon={<TrendingDown className="h-6 w-6" />}
         variant="warning"
